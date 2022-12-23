@@ -1,5 +1,5 @@
 ### ORGANIZATIONS ###
-resource "aws_organizations_account" "account_staging" {
+resource "aws_organizations_account" "staging" {
   name      = "mastodonpro-staging"
   email     = "sysadmins+staging@mastodonpro.com"
   role_name = "OrganizationAccountAccessRole"
@@ -8,7 +8,7 @@ resource "aws_organizations_account" "account_staging" {
     ignore_changes = [role_name]
   }
 }
-resource "aws_organizations_account" "account_production" {
+resource "aws_organizations_account" "production" {
   name      = "mastodonpro-production"
   email     = "sysadmins+production@mastodonpro.com"
   role_name = "OrganizationAccountAccessRole"
@@ -20,10 +20,10 @@ resource "aws_organizations_account" "account_production" {
 
 # Create aliased providers to manage the account above
 provider "aws" {
-  alias  = "environment_staging"
+  alias  = "staging"
   region = "eu-west-1"
   assume_role {
-    role_arn = "arn:aws:iam::${aws_organizations_account.account_staging.id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${aws_organizations_account.staging.id}:role/OrganizationAccountAccessRole"
   }
   default_tags {
     tags = {
@@ -33,10 +33,10 @@ provider "aws" {
   }
 }
 provider "aws" {
-  alias  = "environment_production"
+  alias  = "production"
   region = "eu-west-1"
   assume_role {
-    role_arn = "arn:aws:iam::${aws_organizations_account.account_production.id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${aws_organizations_account.production.id}:role/OrganizationAccountAccessRole"
   }
   default_tags {
     tags = {
@@ -59,65 +59,65 @@ resource "aws_identitystore_group" "sysadmins" {
   description       = "System Administrators"
   identity_store_id = tolist(data.aws_ssoadmin_instances.instance.identity_store_ids)[0]
 }
-resource "aws_ssoadmin_account_assignment" "sysadmins_assignment_staging" {
+resource "aws_ssoadmin_account_assignment" "sysadmins_staging" {
   instance_arn       = aws_ssoadmin_permission_set.admin_access.instance_arn
   permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
   principal_id       = aws_identitystore_group.sysadmins.group_id
   principal_type     = "GROUP"
-  target_id          = aws_organizations_account.account_staging.id
+  target_id          = aws_organizations_account.staging.id
   target_type        = "AWS_ACCOUNT"
 }
-resource "aws_ssoadmin_account_assignment" "sysadmins_assignment_production" {
+resource "aws_ssoadmin_account_assignment" "sysadmins_production" {
   instance_arn       = aws_ssoadmin_permission_set.admin_access.instance_arn
   permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
   principal_id       = aws_identitystore_group.sysadmins.group_id
   principal_type     = "GROUP"
-  target_id          = aws_organizations_account.account_production.id
+  target_id          = aws_organizations_account.production.id
   target_type        = "AWS_ACCOUNT"
 }
 
 
 ### IAM users ###
 resource "aws_iam_user" "terraform_staging" {
-  provider = aws.environment_staging
+  provider = aws.staging
   name     = "terraform"
 }
 resource "aws_iam_user" "terraform_production" {
-  provider = aws.environment_production
+  provider = aws.production
   name     = "terraform"
 }
 
 ### IAM groups ###
 resource "aws_iam_group" "terraform_staging" {
-  provider = aws.environment_staging
+  provider = aws.staging
   name     = "terraform"
 }
 resource "aws_iam_group_policy_attachment" "terraform_staging" {
-  provider   = aws.environment_staging
+  provider   = aws.staging
   group      = aws_iam_group.terraform_staging.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 resource "aws_iam_group" "terraform_production" {
-  provider = aws.environment_production
+  provider = aws.production
   name     = "terraform"
 }
 resource "aws_iam_group_policy_attachment" "terraform_production" {
-  provider   = aws.environment_production
+  provider   = aws.production
   group      = aws_iam_group.terraform_production.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 ### IAM group memberships ###
 resource "aws_iam_user_group_membership" "terraform_staging" {
-  provider = aws.environment_staging
+  provider = aws.staging
   user     = aws_iam_user.terraform_staging.name
   groups = [
     aws_iam_group.terraform_staging.name,
   ]
 }
 resource "aws_iam_user_group_membership" "terraform_production" {
-  provider = aws.environment_production
+  provider = aws.production
   user     = aws_iam_user.terraform_production.name
   groups = [
     aws_iam_group.terraform_production.name,
@@ -128,20 +128,20 @@ resource "aws_iam_user_group_membership" "terraform_production" {
 # Be careful when it comes to key rotation
 # This can be problem in terraform, make sure to read the docs
 resource "aws_iam_access_key" "terraform_staging" {
-  provider = aws.environment_staging
+  provider = aws.staging
   user     = aws_iam_user.terraform_staging.name
 }
 resource "aws_iam_access_key" "terraform_production" {
-  provider = aws.environment_production
+  provider = aws.production
   user     = aws_iam_user.terraform_production.name
 }
 
 ### ROUTE53 ###
-resource "aws_route53_zone" "zone_staging" {
-  provider = aws.environment_staging
+resource "aws_route53_zone" "staging" {
+  provider = aws.staging
   name     = var.domain_map["staging"]
 }
-resource "aws_route53_zone" "zone_production" {
-  provider = aws.environment_production
+resource "aws_route53_zone" "production" {
+  provider = aws.production
   name     = var.domain_map["production"]
 }

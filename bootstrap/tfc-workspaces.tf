@@ -31,7 +31,7 @@ resource "tfe_workspace" "infrastructure_staging" {
 }
 resource "tfe_workspace" "infrastructure_production" {
   name              = "infrastructure-production"
-  auto_apply        = true
+  auto_apply        = false
   description       = "Infrastructure Workspace - production"
   working_directory = "infrastructure"
   vcs_repo {

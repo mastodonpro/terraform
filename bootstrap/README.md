@@ -18,8 +18,13 @@ To get this started you need to set up a few objects in your ROOT AWS account:
 ## Terraform Cloud (TFC)
 
 On Terraform Cloud you need to create the workspace `bootstrap`.
+Choose the following advanced settings:
 
-The workspace need to be populated with the following environment variables:
+- Manually apply changes
+- Only trigger runs when files in specified paths change (Pattern:
+  `/bootstrap/**/*`)
+
+The workspace needs to be populated with the following environment variables:
 
 - `AWS_ACCESS_KEY_ID` (AWS Access Key ID) and `AWS_SECRET_ACCESS_KEY`
   (AWS Secret Access Key) that belong to the top level AWS root account.

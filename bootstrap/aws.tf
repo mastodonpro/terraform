@@ -1,25 +1,3 @@
-### SSO ###
-data "aws_ssoadmin_instances" "instance" {}
-resource "aws_ssoadmin_permission_set" "admin_access" {
-  name             = "AdministratorAccess"
-  description      = "Access for Administrators"
-  instance_arn     = tolist(data.aws_ssoadmin_instances.instance.arns)[0]
-  session_duration = "PT12H"
-}
-resource "aws_identitystore_group" "sysadmins" {
-  display_name      = "Sysadmins"
-  description       = "System Administrators"
-  identity_store_id = tolist(data.aws_ssoadmin_instances.instance.identity_store_ids)[0]
-}
-resource "aws_ssoadmin_account_assignment" "sysadmins_assignment" {
-  instance_arn       = aws_ssoadmin_permission_set.admin_access.instance_arn
-  permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
-  principal_id       = aws_identitystore_group.sysadmins.group_id
-  principal_type     = "GROUP"
-  target_id          = aws_organizations_account.account.id
-  target_type        = "AWS_ACCOUNT"
-}
-
 ### ORGANIZATIONS ###
 resource "aws_organizations_account" "account_staging" {
   name      = "mastodonpro-staging"
@@ -40,7 +18,7 @@ resource "aws_organizations_account" "account_production" {
   }
 }
 
-# Create aliased provider to manage the account above
+# Create aliased providers to manage the account above
 provider "aws" {
   alias  = "environment_staging"
   region = "eu-west-1"
@@ -68,7 +46,48 @@ provider "aws" {
   }
 }
 
-### IAM group ###
+### SSO ###
+data "aws_ssoadmin_instances" "instance" {}
+resource "aws_ssoadmin_permission_set" "admin_access" {
+  name             = "AdministratorAccess"
+  description      = "Access for Administrators"
+  instance_arn     = tolist(data.aws_ssoadmin_instances.instance.arns)[0]
+  session_duration = "PT12H"
+}
+resource "aws_identitystore_group" "sysadmins" {
+  display_name      = "Sysadmins"
+  description       = "System Administrators"
+  identity_store_id = tolist(data.aws_ssoadmin_instances.instance.identity_store_ids)[0]
+}
+resource "aws_ssoadmin_account_assignment" "sysadmins_assignment_staging" {
+  instance_arn       = aws_ssoadmin_permission_set.admin_access.instance_arn
+  permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
+  principal_id       = aws_identitystore_group.sysadmins.group_id
+  principal_type     = "GROUP"
+  target_id          = aws_organizations_account.account_staging.id
+  target_type        = "AWS_ACCOUNT"
+}
+resource "aws_ssoadmin_account_assignment" "sysadmins_assignment_production" {
+  instance_arn       = aws_ssoadmin_permission_set.admin_access.instance_arn
+  permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
+  principal_id       = aws_identitystore_group.sysadmins.group_id
+  principal_type     = "GROUP"
+  target_id          = aws_organizations_account.account_production.id
+  target_type        = "AWS_ACCOUNT"
+}
+
+
+### IAM users ###
+resource "aws_iam_user" "terraform_staging" {
+  provider = aws.environment_staging
+  name     = "terraform"
+}
+resource "aws_iam_user" "terraform_production" {
+  provider = aws.environment_production
+  name     = "terraform"
+}
+
+### IAM groups ###
 resource "aws_iam_group" "terraform_staging" {
   provider = aws.environment_staging
   name     = "terraform"
@@ -89,21 +108,13 @@ resource "aws_iam_group_policy_attachment" "terraform_production" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
-### IAM user ###
-resource "aws_iam_user" "terraform_staging" {
-  provider = aws.environment_staging
-  name     = "terraform"
-}
+### IAM group memberships ###
 resource "aws_iam_user_group_membership" "terraform_staging" {
   provider = aws.environment_staging
   user     = aws_iam_user.terraform_staging.name
   groups = [
     aws_iam_group.terraform_staging.name,
   ]
-}
-resource "aws_iam_user" "terraform_production" {
-  provider = aws.environment_production
-  name     = "terraform"
 }
 resource "aws_iam_user_group_membership" "terraform_production" {
   provider = aws.environment_production
@@ -113,7 +124,7 @@ resource "aws_iam_user_group_membership" "terraform_production" {
   ]
 }
 
-### IAM access key ###
+### IAM access keys ###
 # Be careful when it comes to key rotation
 # This can be problem in terraform, make sure to read the docs
 resource "aws_iam_access_key" "terraform_staging" {

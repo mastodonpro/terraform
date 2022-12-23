@@ -1,8 +1,5 @@
 ### USERS ###
 resource "aws_identitystore_user" "batlogg_jodok" {
-  # only create once, when running on -production
-  count = local.environment == "production" ? 1 : 0
-
   identity_store_id = tolist(data.aws_ssoadmin_instances.instance.identity_store_ids)[0]
 
   display_name = "Jodok Batlogg"
@@ -15,11 +12,17 @@ resource "aws_identitystore_user" "batlogg_jodok" {
     value = "jodok@batlogg.com"
   }
 }
-resource "aws_identitystore_group_membership" "batlogg_jodok" {
-  # only create once, when running on -production
-  count = local.environment == "production" ? 1 : 0
 
+### GROUPS ###
+resource "aws_identitystore_group" "sysadmins" {
+  identity_store_id = tolist(data.aws_ssoadmin_instances.sysadmins.identity_store_ids)[0]
+  display_name      = "Sysadmins"
+  description       = "System Administrators"
+}
+
+### GROUP MEMBERSHIPS ###
+resource "aws_identitystore_group_membership" "batlogg_jodok" {
   identity_store_id = tolist(data.aws_ssoadmin_instances.instance.identity_store_ids)[0]
-  group_id          = aws_identitystore_group.instance.group_id
-  member_id         = aws_identitystore_user.example.user_id
+  group_id          = aws_identitystore_group.sysadmins.group_id
+  member_id         = aws_identitystore_user.batlogg_jodok.user_id
 }

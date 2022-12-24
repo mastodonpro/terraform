@@ -42,5 +42,5 @@ resource "aws_route53_record" "hubspot-a" {
   name    = data.aws_route53_zone.zone.name
   type    = "A"
   ttl     = "3600"
-  records = [var.dns_maps[local.environment].hubspot-a]
+  records = var.dns_maps[local.environment].hubspot-a
 }

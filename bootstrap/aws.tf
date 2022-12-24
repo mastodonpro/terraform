@@ -145,3 +145,7 @@ resource "aws_route53_zone" "production" {
   provider = aws.production
   name     = var.domain_map["production"]
 }
+resource "aws_route53_zone" "main" {
+  provider = aws.production
+  name     = "pro.joinmastodon.org"
+}

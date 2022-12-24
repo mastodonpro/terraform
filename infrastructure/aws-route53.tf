@@ -35,3 +35,12 @@ resource "aws_route53_record" "google-dkim" {
   ttl     = "3600"
   records = [var.dns_maps[local.environment].google-dkim]
 }
+
+### A ###
+resource "aws_route53_record" "hubspot-a" {
+  zone_id = data.aws_route53_zone.zone.id
+  name    = data.aws_route53_zone.zone.name
+  type    = "A"
+  ttl     = "3600"
+  records = [var.dns_maps[local.environment].hubspot-a]
+}

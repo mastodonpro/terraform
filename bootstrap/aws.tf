@@ -140,17 +140,3 @@ resource "aws_iam_access_key" "terraform_production" {
   provider = aws.production
   user     = aws_iam_user.terraform_production.name
 }
-
-### ROUTE53 ###
-resource "aws_route53_zone" "staging" {
-  provider = aws.staging
-  name     = var.domain_map["staging"]
-}
-resource "aws_route53_zone" "production" {
-  provider = aws.production
-  name     = var.domain_map["production"]
-}
-resource "aws_route53_zone" "main" {
-  provider = aws.production
-  name     = "pro.joinmastodon.org"
-}

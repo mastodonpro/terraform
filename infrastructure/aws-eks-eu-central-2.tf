@@ -12,6 +12,10 @@ locals {
 }
 
 module "eks_eu-central-2" {
+  providers = {
+    aws        = aws.eu-central-2
+    kubernetes = kubernetes.eu-central-2
+  }
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
 
@@ -92,6 +96,9 @@ module "eks_eu-central-2" {
 module "vpc_eks_eu-central-2" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
+  providers = {
+    aws = aws.eu-central-2
+  }
 
   name = "eks_eu-central-2"
   cidr = local.vpc_cidr_eu-central-2
@@ -121,6 +128,9 @@ module "vpc_eks_eu-central-2" {
 module "vpc_cni_irsa_eu-central-2" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.0"
+  providers = {
+    aws = aws.eu-central-2
+  }
 
   role_name_prefix      = "VPC-CNI-IRSA"
   attach_vpc_cni_policy = true

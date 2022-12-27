@@ -6,6 +6,10 @@
 data "aws_availability_zones" "eu-central-1" {
   provider = aws.eu-central-1
 }
+data "aws_caller_identity" "current" {
+  provider = aws.eu-central-1
+}
+
 locals {
   vpc_cidr_eu-central-1 = "10.2.0.0/16"
   azs_eu-central-1      = slice(data.aws_availability_zones.eu-central-1.names, 0, 3)
@@ -40,6 +44,17 @@ module "eks_eu-central-1" {
   control_plane_subnet_ids = module.vpc_eks_eu-central-1.intra_subnets
 
   manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:sts::908023327186:assumed-role/AWSReservedSSO_AdministratorAccess_32220bb7d5ff07a5/jodok.batlogg"
+      username = "jodok.batlogg"
+      groups   = ["system:masters"]
+    },
+  ]
+  aws_auth_accounts = [
+    data.aws_caller_identity.current.account_id
+  ]
 
   eks_managed_node_group_defaults = {
     ami_type       = "AL2_x86_64"

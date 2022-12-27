@@ -3,23 +3,23 @@
 # and https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/examples/eks_managed_node_group/main.tf
 
 # Helper data
-data "aws_availability_zones" "eu-central-2" {
-  provider = aws.eu-central-2
+data "aws_availability_zones" "eu-central-1" {
+  provider = aws.eu-central-1
 }
 locals {
-  vpc_cidr_eu-central-2 = "10.1.0.0/16"
-  azs_eu-central-2      = slice(data.aws_availability_zones.eu-central-2.names, 0, 3)
+  vpc_cidr_eu-central-1 = "10.1.0.0/16"
+  azs_eu-central-1      = slice(data.aws_availability_zones.eu-central-1.names, 0, 3)
 }
 
-module "eks_eu-central-2" {
+module "eks_eu-central-1" {
   providers = {
-    aws        = aws.eu-central-2
-    kubernetes = kubernetes.aws_eu-central-2
+    aws        = aws.eu-central-1
+    kubernetes = kubernetes.aws_eu-central-1
   }
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
 
-  cluster_name                   = "${local.environment}_eu-central-2"
+  cluster_name                   = "${local.environment}_eu-central-1"
   cluster_version                = "1.24"
   cluster_endpoint_public_access = true
 
@@ -43,7 +43,7 @@ module "eks_eu-central-2" {
     }
     vpc-cni = {
       most_recent              = true
-      service_account_role_arn = module.vpc_cni_irsa_eu-central-2.iam_role_arn
+      service_account_role_arn = module.vpc_cni_irsa_eu-central-1.iam_role_arn
       configuration_values = jsonencode({
         env = {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
@@ -54,9 +54,9 @@ module "eks_eu-central-2" {
     }
   }
 
-  vpc_id                   = module.vpc_eks_eu-central-2.vpc_id
-  subnet_ids               = module.vpc_eks_eu-central-2.private_subnets
-  control_plane_subnet_ids = module.vpc_eks_eu-central-2.intra_subnets
+  vpc_id                   = module.vpc_eks_eu-central-1.vpc_id
+  subnet_ids               = module.vpc_eks_eu-central-1.private_subnets
+  control_plane_subnet_ids = module.vpc_eks_eu-central-1.intra_subnets
 
   manage_aws_auth_configmap = true
 
@@ -93,20 +93,20 @@ module "eks_eu-central-2" {
 }
 
 # Supporting resources
-module "vpc_eks_eu-central-2" {
+module "vpc_eks_eu-central-1" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
   providers = {
-    aws = aws.eu-central-2
+    aws = aws.eu-central-1
   }
 
-  name = "eks_eu-central-2"
-  cidr = local.vpc_cidr_eu-central-2
+  name = "eks_eu-central-1"
+  cidr = local.vpc_cidr_eu-central-1
 
-  azs             = local.azs_eu-central-2
-  private_subnets = [for k, v in local.azs_eu-central-2 : cidrsubnet(local.vpc_cidr_eu-central-2, 4, k)]
-  public_subnets  = [for k, v in local.azs_eu-central-2 : cidrsubnet(local.vpc_cidr_eu-central-2, 8, k + 48)]
-  intra_subnets   = [for k, v in local.azs_eu-central-2 : cidrsubnet(local.vpc_cidr_eu-central-2, 8, k + 52)]
+  azs             = local.azs_eu-central-1
+  private_subnets = [for k, v in local.azs_eu-central-1 : cidrsubnet(local.vpc_cidr_eu-central-1, 4, k)]
+  public_subnets  = [for k, v in local.azs_eu-central-1 : cidrsubnet(local.vpc_cidr_eu-central-1, 8, k + 48)]
+  intra_subnets   = [for k, v in local.azs_eu-central-1 : cidrsubnet(local.vpc_cidr_eu-central-1, 8, k + 52)]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -125,11 +125,11 @@ module "vpc_eks_eu-central-2" {
   }
 }
 
-module "vpc_cni_irsa_eu-central-2" {
+module "vpc_cni_irsa_eu-central-1" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.0"
   providers = {
-    aws = aws.eu-central-2
+    aws = aws.eu-central-1
   }
 
   role_name_prefix      = "VPC-CNI-IRSA"
@@ -138,7 +138,7 @@ module "vpc_cni_irsa_eu-central-2" {
 
   oidc_providers = {
     main = {
-      provider_arn               = module.eks_eu-central-2.oidc_provider_arn
+      provider_arn               = module.eks_eu-central-1.oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-node"]
     }
   }

@@ -17,4 +17,5 @@ in the [AWS IAM console](https://us-east-1.console.aws.amazon.com/iamv2/home?reg
 ### IP Spaces for EKS
 
 - eu-west-1: 10.0.0.0/16
-- eu-central-2: 10.1.0.0/16
+- eu-central-2: 10.1.0.0/16 (unfortunately EKS is not yet supported)
+- eu-central-1: 10.2.0.0/16

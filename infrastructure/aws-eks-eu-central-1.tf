@@ -45,13 +45,6 @@ module "eks_eu-central-1" {
 
   manage_aws_auth_configmap = true
 
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:sts::908023327186:assumed-role/AWSReservedSSO_AdministratorAccess_32220bb7d5ff07a5/jodok.batlogg"
-      username = "jodok.batlogg"
-      groups   = ["system:masters"]
-    },
-  ]
   aws_auth_roles = [
     {
       rolearn  = "arn:aws:iam::908023327186:role/AWSReservedSSO_AdministratorAccess_32220bb7d5ff07a5"

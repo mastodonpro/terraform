@@ -12,3 +12,8 @@ output "eks_eu-central-1_cluster_name" {
   description = "Kubernetes Cluster Name in Zone eu-central-1"
   value       = module.eks_eu-central-1.cluster_name
 }
+
+output "mastodonpro_aws_route53_name_servers" {
+  value       = aws_route53_zone.mpro.name_servers
+  description = "The Name Servers of the Mastodon pro Route53 zone."
+}

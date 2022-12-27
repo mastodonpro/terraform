@@ -1,6 +1,3 @@
-data "aws_route53_zone" "zone" {
-  name = var.domain_map[local.environment]
-}
 data "aws_caller_identity" "current" {}
 
 # https://github.com/aws/containers-roadmap/issues/474#issuecomment-1089845804

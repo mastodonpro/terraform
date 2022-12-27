@@ -16,7 +16,9 @@ locals {
 }
 
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###
-variable "domain_map" {
+
+# Mastodon pro
+variable "mpro_domain_map" {
   type        = map(any)
   description = "Map of environment to domain."
   default = {
@@ -24,8 +26,7 @@ variable "domain_map" {
     production = "mastodonpro.com"
   }
 }
-
-variable "dns_maps" {
+variable "mpro_dns_maps" {
   type        = map(any)
   description = "Map of DNS records"
   default = {

@@ -38,6 +38,17 @@ provider "aws" {
     }
   }
 }
+provider "aws" {
+  alias  = "eu-central-2"
+  region = "eu-central-2"
+  default_tags {
+    tags = {
+      Provider    = "terraform"
+      Workspace   = var.ATLAS_WORKSPACE_NAME
+      Environment = local.environment
+    }
+  }
+}
 provider "kubernetes" {
   alias                  = "aws_eu-central-1"
   host                   = module.eks_eu-central-1.cluster_endpoint

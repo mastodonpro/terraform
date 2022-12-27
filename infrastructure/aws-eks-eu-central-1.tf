@@ -52,6 +52,13 @@ module "eks_eu-central-1" {
       groups   = ["system:masters"]
     },
   ]
+  aws_auth_roles = [
+    {
+      rolearn  = "arn:aws:iam::908023327186:role/AWSReservedSSO_AdministratorAccess_32220bb7d5ff07a5"
+      username = "Administrators"
+      groups   = ["system:masters"]
+    },
+  ]
   aws_auth_accounts = [
     data.aws_caller_identity.current.account_id
   ]

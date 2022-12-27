@@ -6,22 +6,9 @@
 data "aws_availability_zones" "eu-central-1" {
   provider = aws.eu-central-1
 }
-data "aws_caller_identity" "current" {
-  provider = aws.eu-central-1
-}
-data "aws_iam_roles" "admin_sso_role" {
-  path_prefix = "/aws-reserved/sso.amazonaws.com/"
-  name_regex  = "AWSReservedSSO_AdministratorAccess_.+"
-}
-
 locals {
   vpc_cidr_eu-central-1 = "10.2.0.0/16"
   azs_eu-central-1      = slice(data.aws_availability_zones.eu-central-1.names, 0, 3)
-  # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_roles#role-arns-with-paths-removed
-  admin_sso_role_arn = [
-    for parts in [for arn in data.aws_iam_roles.admin_sso_role.arns : split("/", arn)] :
-    format("%s/%s", parts[0], element(parts, length(parts) - 1))
-  ][0]
 }
 
 module "eks_eu-central-1" {

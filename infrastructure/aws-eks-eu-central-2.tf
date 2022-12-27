@@ -14,7 +14,7 @@ locals {
 module "eks_eu-central-2" {
   providers = {
     aws        = aws.eu-central-2
-    kubernetes = kubernetes.eu-central-2
+    kubernetes = kubernetes.aws_eu-central-2
   }
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"

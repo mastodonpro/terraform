@@ -16,6 +16,7 @@ terraform {
     }
   }
 }
+# default provider
 provider "aws" {
   region = "eu-west-1"
   default_tags {
@@ -26,14 +27,27 @@ provider "aws" {
     }
   }
 }
+# aws_eu-central-2, zurich region
+provider "aws" {
+  alias  = "eu-central-2"
+  region = "eu-central-2"
+  default_tags {
+    tags = {
+      Provider    = "terraform"
+      Workspace   = var.ATLAS_WORKSPACE_NAME
+      Environment = local.environment
+    }
+  }
+}
 provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  alias                  = "aws_eu-central-2"
+  host                   = module.eks_eu-central-1.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks_eu-central-2.cluster_certificate_authority_data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
     # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    args = ["eks", "get-token", "--cluster-name", module.eks_eu-centra-2.cluster_name]
   }
 }

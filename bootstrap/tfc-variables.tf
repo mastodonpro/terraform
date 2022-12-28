@@ -48,10 +48,10 @@ resource "tfe_variable_set" "github" {
   description  = "Environment variables required for the GitHub provider to authenticate with the GitHub App."
   organization = data.tfe_organization.mastodonpro.name
 }
-resource "tfe_variable" "github_app_ip" {
-  key             = "GITHUB_APP_IP"
+resource "tfe_variable" "github_app_id" {
+  key             = "GITHUB_APP_ID"
   description     = "The id of the GitHub App"
-  value           = var.GITHUB_APP_IP
+  value           = var.GITHUB_APP_ID
   category        = "terraform"
   variable_set_id = tfe_variable_set.github.id
 }

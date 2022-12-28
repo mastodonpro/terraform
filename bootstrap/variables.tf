@@ -12,7 +12,7 @@ variable "TFC_OAUTH_TOKEN_ID" {
 }
 
 # GitHub
-variable "GITHUB_APP_IP" {
+variable "GITHUB_APP_ID" {
   type        = string
   description = "The id of the GitHub App"
   default     = "276272"

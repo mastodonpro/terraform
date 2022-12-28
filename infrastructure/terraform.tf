@@ -74,7 +74,11 @@ provider "github" {
     pem_file        = var.GITHUB_APP_PEM_FILE
   }
 }
-provider "kubectl" {}
+provider "kubectl" {
+  alias                  = "aws_eu-central-1"
+  host                   = module.eks_eu-central-1.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks_eu-central-1.cluster_certificate_authority_data)
+}
 provider "kubernetes" {
   alias                  = "aws_eu-central-1"
   host                   = module.eks_eu-central-1.cluster_endpoint

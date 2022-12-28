@@ -11,18 +11,6 @@ variable "TFC_OAUTH_TOKEN_ID" {
   default     = "ot-8LpearcS3vpGFHEL"
 }
 
-# Amazon Web Services
-variable "AWS_ACCESS_KEY_ID" {
-  type        = string
-  description = "AWS Access Key ID for the Root Account"
-  default     = "AKIAQRSU62EWVDFIBIVN"
-}
-variable "AWS_SECRET_ACCESS_KEY" {
-  type        = string
-  description = "AWS Secret Access Key of the Root Account"
-  sensitive   = true
-}
-
 # GitHub
 variable "GITHUB_APP_IP" {
   type        = string

@@ -42,8 +42,8 @@ The workspace needs to be populated with the following environment variables:
   Cloud about changes in the repository.
 - Create a second GitHub app, so that Terraform cloud can connect to GitHub
   and create repositories, users,... This app connect via a secret PEM file.
-  Set the `TF_VAR_GITHUB_APP_PEM_FILE` variable to the content of the PEM file.
-  Terraform will then set the `GITHUB_APP_PEM_FILE` variable accordingly.
+  Set the `GITHUB_APP_PEM_FILE` variable (as terraform variable to support
+  newlines) to the content of the PEM file.
 
 ## Other hints
 

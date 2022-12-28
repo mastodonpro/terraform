@@ -52,3 +52,17 @@ variable "mpro_dns_maps" {
     }
   }
 }
+
+# GitHub (populated via variable sets defined in bootstrap)
+variable "GITHUB_APP_ID" {
+  type        = string
+  description = "The id of the GitHub App"
+}
+variable "GITHUB_APP_INSTALLATION_ID" {
+  type        = string
+  description = "The Installation id of the GitHub App"
+}
+variable "GITHUB_APP_PEM_FILE" {
+  type        = string
+  description = "The contents of the secret of the GitHub App"
+}

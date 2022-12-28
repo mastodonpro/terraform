@@ -16,6 +16,10 @@ resource "tfe_workspace_variable_set" "aws_common" {
   variable_set_id = tfe_variable_set.aws_production.id
   workspace_id    = tfe_workspace.common.id
 }
+resource "tfe_workspace_variable_set" "github_common" {
+  variable_set_id = tfe_variable_set.github.id
+  workspace_id    = tfe_workspace.common.id
+}
 
 # infrastructure- workspaces
 resource "tfe_workspace" "infrastructure_staging" {

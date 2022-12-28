@@ -35,10 +35,14 @@ The workspace needs to be populated with the following environment variables:
   (<https://app.terraform.io/app/mastodonpro/settings/authentication-tokens>)
   Set this token as sensitive `TFE_TOKEN`, `The Terraform cloud organization
   token`. It makes sense to add this to the variable set above as well.
-- You need to create an GitHub App and connect it via an
+- You need to install the Terraform Cloud GitHub App and connect it via an
   [OAuth App](https://www.terraform.io/docs/cloud/vcs/github.html) to the
   Terraform Cloud workspace. Note the resulting OAuth Token ID and set the
-  `TFC_OAUTH_TOKEN_ID` variable correspondingly. (optional)
+  `TFC_OAUTH_TOKEN_ID` variable correspondingly. This app notifies Terraform
+  Cloud about changes in the repository.
+- Create a second GitHub app, so that Terraform cloud can connect to GitHub
+  and create repositories, users,... This app connect via a secret PEM file.
+  Set the `GITHUB_APP_PEM_FILE` variable to the content of the PEM file.
 
 ## Other hints
 

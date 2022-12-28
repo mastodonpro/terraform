@@ -87,12 +87,12 @@ resource "github_repository_file" "install_aws_eu-central-1" {
   content    = data.flux_install.aws_eu-central-1.content
 }
 resource "github_repository_file" "sync_aws_eu-central-1" {
-  repository = github_repository.flux.name
+  repository = data.github_repository.flux.name
   file       = data.flux_sync.aws_eu-central-1.path
   content    = data.flux_sync.aws_eu-central-1.content
 }
 resource "github_repository_file" "kustomize" {
-  repository = github_repository.flux.name
+  repository = data.github_repository.flux.name
   file       = data.flux_sync.aws_eu-central-1.kustomize_path
   content    = data.flux_sync.aws_eu-central-1.kustomize_content
 }

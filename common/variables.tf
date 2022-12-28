@@ -4,7 +4,7 @@ variable "ATLAS_WORKSPACE_NAME" {
   type = string
 }
 
-# GitHub
+# GitHub (populated via variable sets defined in bootstrap)
 variable "GITHUB_APP_ID" {
   type        = string
   description = "The id of the GitHub App"

@@ -4,9 +4,25 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    flux = {
+      source  = "fluxcd/flux"
+      version = ">= 0.0.13"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.10.0"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 2.10"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.4"
     }
   }
   cloud {
@@ -49,6 +65,16 @@ provider "aws" {
     }
   }
 }
+provider "flux" {}
+provider "github" {
+  owner = "mastodonpro"
+  app_auth {
+    id              = var.GITHUB_APP_ID
+    installation_id = var.GITHUB_APP_INSTALLATION_ID
+    pem_file        = var.GITHUB_APP_PEM_FILE
+  }
+}
+provider "kubectl" {}
 provider "kubernetes" {
   alias                  = "aws_eu-central-1"
   host                   = module.eks_eu-central-1.cluster_endpoint

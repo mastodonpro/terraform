@@ -46,11 +46,21 @@ resource "tfe_workspace" "infrastructure_production" {
   organization = data.tfe_organization.mastodonpro.name
 }
 
+# AWS env vars
 resource "tfe_workspace_variable_set" "aws_infrastructure_staging" {
   variable_set_id = tfe_variable_set.aws_staging.id
   workspace_id    = tfe_workspace.infrastructure_staging.id
 }
 resource "tfe_workspace_variable_set" "aws_infrastructure_production" {
   variable_set_id = tfe_variable_set.aws_production.id
+  workspace_id    = tfe_workspace.infrastructure_production.id
+}
+# GitHub terraform vars
+resource "tfe_workspace_variable_set" "github_infrastructure_staging" {
+  variable_set_id = tfe_variable_set.github.id
+  workspace_id    = tfe_workspace.infrastructure_staging.id
+}
+resource "tfe_workspace_variable_set" "github_infrastructure_production" {
+  variable_set_id = tfe_variable_set.github.id
   workspace_id    = tfe_workspace.infrastructure_production.id
 }

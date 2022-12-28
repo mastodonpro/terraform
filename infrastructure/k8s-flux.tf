@@ -81,17 +81,17 @@ resource "github_repository_deploy_key" "flux_aws_eu-central-1" {
   read_only  = true
 }
 
-resource "github_repository_file" "install_aws_eu-central-1" {
+resource "github_repository_file" "flux_install_aws_eu-central-1" {
   repository = data.github_repository.flux.name
   file       = data.flux_install.aws_eu-central-1.path
   content    = data.flux_install.aws_eu-central-1.content
 }
-resource "github_repository_file" "sync_aws_eu-central-1" {
+resource "github_repository_file" "flux_sync_aws_eu-central-1" {
   repository = data.github_repository.flux.name
   file       = data.flux_sync.aws_eu-central-1.path
   content    = data.flux_sync.aws_eu-central-1.content
 }
-resource "github_repository_file" "kustomize" {
+resource "github_repository_file" "flux_kustomize_aws_eu-central-1" {
   repository = data.github_repository.flux.name
   file       = data.flux_sync.aws_eu-central-1.kustomize_path
   content    = data.flux_sync.aws_eu-central-1.kustomize_content

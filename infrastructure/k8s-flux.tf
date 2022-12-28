@@ -16,6 +16,7 @@ data "flux_sync" "aws_eu-central-1" {
 
 # Kubernetes
 resource "kubernetes_namespace" "flux_system_aws_eu-central-1" {
+  provider = kubernetes.aws_eu-central-1
   metadata {
     name = "flux-system"
   }
@@ -47,17 +48,20 @@ locals {
 }
 
 resource "kubectl_manifest" "flux_install_aws_eu-central-1" {
+  provider   = kubectl.aws_eu-central-1
   for_each   = { for v in local.install_aws_eu-central-1 : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
   depends_on = [kubernetes_namespace.flux_system_aws_eu-central-1]
   yaml_body  = each.value
 }
 resource "kubectl_manifest" "flux_sync_aws_eu-central-1" {
+  provider   = kubectl.aws_eu-central-1
   for_each   = { for v in local.sync_aws_eu-central-1 : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
   depends_on = [kubernetes_namespace.flux_system_aws_eu-central-1]
   yaml_body  = each.value
 }
 
 resource "kubernetes_secret" "flux_aws_eu-central-1" {
+  provider   = kubernetes.aws_eu-central-1
   depends_on = [kubectl_manifest.flux_install_aws_eu-central-1]
   metadata {
     name      = data.flux_sync.aws_eu-central-1.secret

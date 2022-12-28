@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
   }
   cloud {
     organization = "mastodonpro"
@@ -30,4 +34,9 @@ provider "aws" {
       TFWorkspace = var.ATLAS_WORKSPACE_NAME
     }
   }
+}
+
+provider "github" {
+  owner = "mastodonpro"
+  app_auth {}
 }

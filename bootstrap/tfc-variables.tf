@@ -52,21 +52,22 @@ resource "tfe_variable" "github_app_ip" {
   key             = "GITHUB_APP_IP"
   description     = "The id of the GitHub App"
   value           = var.GITHUB_APP_IP
-  category        = "env"
+  category        = "terraform"
   variable_set_id = tfe_variable_set.github.id
 }
 resource "tfe_variable" "github_app_installation_id" {
   key             = "GITHUB_APP_INSTALLATION_ID"
   description     = "The Installation id of the GitHub App"
   value           = var.GITHUB_APP_INSTALLATION_ID
-  category        = "env"
+  category        = "terraform"
   variable_set_id = tfe_variable_set.github.id
 }
+# we need a terraform variable because of newlines
 resource "tfe_variable" "github_app_pem_file" {
   key             = "GITHUB_APP_PEM_FILE"
   description     = "The contents of the secret of the GitHub App"
   value           = var.GITHUB_APP_PEM_FILE
-  category        = "env"
+  category        = "terraform"
   sensitive       = true
   variable_set_id = tfe_variable_set.github.id
 }

@@ -1,15 +1,5 @@
 ### WORKSPACES
 
-# bootstrap workspace
-data "tfe_workspace" "bootstrap" {
-  name         = "bootstrap"
-  organization = data.tfe_organization.mastodonpro.name
-}
-resource "tfe_workspace_variable_set" "github_bootstrap" {
-  variable_set_id = tfe_variable_set.github.id
-  workspace_id    = data.tfe_workspace.bootstrap.id
-}
-
 # common workspace
 resource "tfe_workspace" "common" {
   name                = "common"

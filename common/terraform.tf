@@ -38,5 +38,4 @@ provider "aws" {
 
 provider "github" {
   owner = "mastodonpro"
-  app_auth {}
 }

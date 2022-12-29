@@ -37,11 +37,11 @@ data "kubectl_file_documents" "flux_sync_aws_eu-central-1" {
 }
 
 locals {
-  install_aws_eu-central-1 = [for v in data.kubectl_file_documents.flux_install_aws_eu-central-1.documents : {
+  flux_install_aws_eu-central-1 = [for v in data.kubectl_file_documents.flux_install_aws_eu-central-1.documents : {
     data : yamldecode(v)
     content : v
   }]
-  sync_aws_eu-central-1 = [for v in data.kubectl_file_documents.flux_sync_aws_eu-central-1.documents : {
+  flux_sync_aws_eu-central-1 = [for v in data.kubectl_file_documents.flux_sync_aws_eu-central-1.documents : {
     data : yamldecode(v)
     content : v
   }]

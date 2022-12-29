@@ -85,7 +85,7 @@ provider "kubectl" {
     command     = "aws"
     # This requires the awscli to be installed locally where Terraform is executed
     #args = ["eks", "get-token", "--cluster-name", module.eks_eu-central-1.cluster_name]
-    args = ["eks", "get-token", "--cluster-name", "staging_eu-central-1"]
+    args = ["eks", "get-token", "--cluster-name", "staging_aws_eu-central-1"]
   }
 }
 provider "kubernetes" {
@@ -98,7 +98,7 @@ provider "kubernetes" {
     command     = "aws"
     # This requires the awscli to be installed locally where Terraform is executed
     #args = ["eks", "get-token", "--cluster-name", module.eks_eu-central-1.cluster_name]
-    args = ["eks", "get-token", "--cluster-name", "staging_eu-central-1"]
+    args = ["eks", "get-token", "--cluster-name", "staging_aws_eu-central-1"]
 
   }
 }

@@ -28,7 +28,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = local.workspace_name
+      TFWorkspace = var.ATLAS_WORKSPACE_NAME
     }
   }
 }
@@ -41,7 +41,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = local.workspace_name
+      TFWorkspace = var.ATLAS_WORKSPACE_NAME
     }
   }
 }

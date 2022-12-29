@@ -6,7 +6,7 @@ terraform {
     }
     github = {
       source  = "integrations/github"
-      version = "~> 5.0"
+      version = "~> 5.8.0" # https://pullanswer.com/questions/maint-public-repositories-do-not-play-well-with-advanced-security-settings
     }
   }
   cloud {
@@ -21,7 +21,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = local.workspace_name
+      TFWorkspace = var.ATLAS_WORKSPACE_NAME
     }
   }
 }
@@ -31,7 +31,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = local.workspace_name
+      TFWorkspace = var.ATLAS_WORKSPACE_NAME
     }
   }
 }

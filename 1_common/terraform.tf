@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "mastodonpro"
     workspaces {
-      tags = ["common"]
+      tags = [local.workspace_name]
     }
   }
 }
@@ -21,7 +21,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = var.ATLAS_WORKSPACE_NAME
+      TFWorkspace = local.workspace_name
     }
   }
 }
@@ -31,7 +31,7 @@ provider "aws" {
   default_tags {
     tags = {
       Provider    = "terraform"
-      TFWorkspace = var.ATLAS_WORKSPACE_NAME
+      TFWorkspace = local.workspace_name
     }
   }
 }

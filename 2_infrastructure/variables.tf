@@ -3,16 +3,10 @@ variable "ATLAS_WORKSPACE_NAME" {
   # https://support.hashicorp.com/hc/en-us/articles/360022827893-Terraform-workspace-value-is-always-default
   type = string
 }
-variable "environment_map" {
-  type        = map(any)
-  description = "Map of workspace to environment."
-  default = {
-    infrastructure-staging    = "staging"
-    infrastructure-production = "production"
-  }
-}
+// determine the environment based on the workspace name
 locals {
-  environment = var.environment_map[var.ATLAS_WORKSPACE_NAME]
+  environment    = regex("-(production|staging)$", var.ATLAS_WORKSPACE_NAME)[0]
+  workspace_name = regex("\\d_(.+)-(staging|production)$", var.ATLAS_WORKSPACE_NAME)[0]
 }
 
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###

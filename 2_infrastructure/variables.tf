@@ -6,8 +6,6 @@ variable "ATLAS_WORKSPACE_NAME" {
 // determine the environment based on the workspace name
 locals {
   environment = regex("-(production|staging)$", var.ATLAS_WORKSPACE_NAME)[0]
-  #workspace_name = regex("\\d_(.+)-(staging|production)$", var.ATLAS_WORKSPACE_NAME)[0]
-  workspace_name = "infrastructure"
 }
 
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###

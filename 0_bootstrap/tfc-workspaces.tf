@@ -2,7 +2,7 @@
 
 # common workspace
 resource "tfe_workspace" "common" {
-  name                = "1_common"
+  name                = "common"
   tag_names           = ["common"]
   auto_apply          = false
   description         = "Common Workspace"
@@ -25,7 +25,7 @@ resource "tfe_workspace_variable_set" "github_common" {
 
 # infrastructure- workspaces
 resource "tfe_workspace" "infrastructure_staging" {
-  name              = "2_infrastructure-staging"
+  name              = "infrastructure-staging"
   tag_names         = ["infrastructure"]
   auto_apply        = true
   description       = "Infrastructure Workspace - staging"
@@ -37,7 +37,7 @@ resource "tfe_workspace" "infrastructure_staging" {
   organization = data.tfe_organization.mastodonpro.name
 }
 resource "tfe_workspace" "infrastructure_production" {
-  name              = "2_infrastructure-production"
+  name              = "infrastructure-production"
   tag_names         = ["infrastructure"]
   auto_apply        = false
   description       = "Infrastructure Workspace - production"

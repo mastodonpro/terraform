@@ -122,7 +122,7 @@ module "load_balancer_controller_irsa_role_eu-central-1" {
   providers = {
     aws = aws.eu-central-1
   }
-  role_name                              = "load-balancer-controller"
+  role_name                              = "aws-load-balancer-controller"
   attach_load_balancer_controller_policy = true
   oidc_providers = {
     ex = {

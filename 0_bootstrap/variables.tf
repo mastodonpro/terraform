@@ -9,6 +9,11 @@ variable "TFC_OAUTH_TOKEN_ID" {
   description = "The OAuth Token ID of the Terraform Cloud Organisation to access the GitHub App"
   default     = "ot-8LpearcS3vpGFHEL"
 }
+variable "TFE_TOKEN" {
+  type        = string
+  description = "The token of the Terraform Cloud organisation"
+  sensitive   = true
+}
 
 # GitHub
 variable "GITHUB_APP_ID" {

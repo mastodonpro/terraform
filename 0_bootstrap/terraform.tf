@@ -36,3 +36,6 @@ provider "github" {
     pem_file        = var.GITHUB_APP_PEM_FILE
   }
 }
+provider "tfe" {
+  token = var.TFE_TOKEN
+}

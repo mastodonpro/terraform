@@ -4,9 +4,25 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    flux = {
+      source  = "fluxcd/flux"
+      version = ">= 0.0.13"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.10.0"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 2.10"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.4"
     }
   }
   cloud {
@@ -47,6 +63,27 @@ provider "aws" {
       Workspace   = var.ATLAS_WORKSPACE_NAME
       Environment = local.environment
     }
+  }
+}
+provider "flux" {}
+provider "github" {
+  owner = "mastodonpro"
+  app_auth {
+    id              = var.GITHUB_APP_ID
+    installation_id = var.GITHUB_APP_INSTALLATION_ID
+    pem_file        = var.GITHUB_APP_PEM_FILE
+  }
+}
+provider "kubectl" {
+  # uses the same configuration as the kubernetes provider
+  alias                  = "aws_eu-central-1"
+  host                   = module.eks_eu-central-1.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks_eu-central-1.cluster_certificate_authority_data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    # This requires the awscli to be installed locally where Terraform is executed
+    args = ["eks", "get-token", "--cluster-name", module.eks_eu-central-1.cluster_name]
   }
 }
 provider "kubernetes" {

@@ -19,3 +19,10 @@ in the [AWS IAM console](https://us-east-1.console.aws.amazon.com/iamv2/home?reg
 - eu-west-1: 10.0.0.0/16
 - eu-central-2: 10.1.0.0/16 (unfortunately EKS is not yet supported)
 - eu-central-1: 10.2.0.0/16
+
+## Kubernetes
+
+Don't put anything that requires kubectl or the kubernetes provider in this
+workspace. Because they will block the workspace from execution as long the
+kubernetes cluster can't be reached (either because it's not up yet or because
+it's not reachable).

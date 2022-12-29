@@ -1,18 +1,17 @@
-output "eks_eu-central-1_cluster_endpoint" {
-  description = "Endpoint for EKS control plane in Zone eu-central-1"
-  value       = module.eks_eu-central-1.cluster_endpoint
+output "eks_eu-central-1" {
+  description = "Cluster data for EKS cluster in eu-central-1"
+  value = {
+    cluster_endpoint          = module.eks_eu-central-1.cluster_endpoint
+    cluster_name              = module.eks_eu-central-1.cluster_name
+    cluster_security_group_id = module.eks_eu-central-1.cluster_security_group_id
+  }
 }
-output "eks_eu-central-1_cluster_certificate_authority_data" {
-  description = "Certificate Authority Data for EKS control plane in Zone eu-central-1"
-  value       = module.eks_eu-central-1.cluster_certificate_authority_data
-}
-output "eks_eu-central-1_cluster_security_group_id" {
-  description = "Security group ids attached to the cluster control plane in Zone eu-central-1"
-  value       = module.eks_eu-central-1.cluster_security_group_id
-}
-output "eks_eu-central-1_cluster_name" {
-  description = "Kubernetes Cluster Name in Zone eu-central-1"
-  value       = module.eks_eu-central-1.cluster_name
+output "eks_eu-central-1_sensitive" {
+  description = "Sensitive cluster data for EKS cluster in eu-central-1"
+  value = {
+    cluster_certificate_authority_data = module.eks_eu-central-1.cluster_certificate_authority_data
+  }
+  sensitive = true
 }
 
 output "mastodonpro_aws_route53_name_servers" {

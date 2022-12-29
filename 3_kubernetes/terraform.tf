@@ -76,21 +76,21 @@ provider "github" {
 }
 provider "kubectl" {
   alias                  = "aws_eu-central-1"
-  host                   = data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_endpoint
-  cluster_ca_certificate = base64decode(data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_certificate_authority_data)
+  host                   = data.tfe_outputs.infrastructure.values.eks_eu-central-1.cluster_endpoint
+  cluster_ca_certificate = base64decode(data.tfe_outputs.infrastructure.values.eks_eu-central-1_sensitive.cluster_certificate_authority_data)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_name]
+    args        = ["eks", "get-token", "--cluster-name", data.tfe_outputs.infrastructure.values.eks_eu-central-1.cluster_name]
   }
 }
 provider "kubernetes" {
   alias                  = "aws_eu-central-1"
-  host                   = data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_endpoint
-  cluster_ca_certificate = base64decode(data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_certificate_authority_data)
+  host                   = data.tfe_outputs.infrastructure.values.eks_eu-central-1.cluster_endpoint
+  cluster_ca_certificate = base64decode(data.tfe_outputs.infrastructure.values.eks_eu-central-1_sensitive.cluster_certificate_authority_data)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", data.tfe_outputs.infrastructure.values.eks_eu-central-1_cluster_name]
+    args        = ["eks", "get-token", "--cluster-name", data.tfe_outputs.infrastructure.values.eks_eu-central-1.cluster_name]
   }
 }

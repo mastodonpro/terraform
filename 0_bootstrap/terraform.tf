@@ -15,7 +15,7 @@ terraform {
   cloud {
     organization = "mastodonpro"
     workspaces {
-      tags = [local.workspace_name]
+      tags = ["bootstrap"]
     }
   }
 }

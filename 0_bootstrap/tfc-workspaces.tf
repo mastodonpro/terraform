@@ -48,7 +48,6 @@ resource "tfe_workspace" "infrastructure_production" {
   }
   organization = data.tfe_organization.mastodonpro.name
 }
-
 # AWS env vars
 resource "tfe_workspace_variable_set" "aws_infrastructure_staging" {
   variable_set_id = tfe_variable_set.aws_staging.id
@@ -66,4 +65,48 @@ resource "tfe_workspace_variable_set" "github_infrastructure_staging" {
 resource "tfe_workspace_variable_set" "github_infrastructure_production" {
   variable_set_id = tfe_variable_set.github.id
   workspace_id    = tfe_workspace.infrastructure_production.id
+}
+
+# kubernetes- workspaces
+resource "tfe_workspace" "kubernetes_staging" {
+  name              = "kubernetes-staging"
+  tag_names         = ["kubernetes"]
+  auto_apply        = true
+  description       = "kubernetes Workspace - staging"
+  working_directory = "3_kubernetes"
+  vcs_repo {
+    identifier     = "mastodonpro/terraform"
+    oauth_token_id = var.TFC_OAUTH_TOKEN_ID
+  }
+  organization = data.tfe_organization.mastodonpro.name
+}
+resource "tfe_workspace" "kubernetes_production" {
+  name              = "kubernetes-production"
+  tag_names         = ["kubernetes"]
+  auto_apply        = false
+  description       = "kubernetes Workspace - production"
+  working_directory = "3_kubernetes"
+  vcs_repo {
+    identifier     = "mastodonpro/terraform"
+    oauth_token_id = var.TFC_OAUTH_TOKEN_ID
+  }
+  organization = data.tfe_organization.mastodonpro.name
+}
+# AWS env vars
+resource "tfe_workspace_variable_set" "aws_kubernetes_staging" {
+  variable_set_id = tfe_variable_set.aws_staging.id
+  workspace_id    = tfe_workspace.kubernetes_staging.id
+}
+resource "tfe_workspace_variable_set" "aws_kubernetes_production" {
+  variable_set_id = tfe_variable_set.aws_production.id
+  workspace_id    = tfe_workspace.kubernetes_production.id
+}
+# GitHub terraform vars
+resource "tfe_workspace_variable_set" "github_kubernetes_staging" {
+  variable_set_id = tfe_variable_set.github.id
+  workspace_id    = tfe_workspace.kubernetes_staging.id
+}
+resource "tfe_workspace_variable_set" "github_kubernetes_production" {
+  variable_set_id = tfe_variable_set.github.id
+  workspace_id    = tfe_workspace.kubernetes_production.id
 }

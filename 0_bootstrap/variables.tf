@@ -3,7 +3,9 @@ variable "ATLAS_WORKSPACE_NAME" {
   # https://support.hashicorp.com/hc/en-us/articles/360022827893-Terraform-workspace-value-is-always-default
   type = string
 }
-
+locals {
+  workspace_name = regex("\\d_(.+)$", var.ATLAS_WORKSPACE_NAME)[0]
+}
 # Terraform Cloud
 variable "TFC_OAUTH_TOKEN_ID" {
   type        = string

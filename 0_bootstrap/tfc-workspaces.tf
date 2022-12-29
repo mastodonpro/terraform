@@ -3,6 +3,7 @@
 # common workspace
 resource "tfe_workspace" "common" {
   name                = "common"
+  tag_names           = ["common"]
   auto_apply          = false
   description         = "Common Workspace"
   working_directory   = "common"
@@ -25,6 +26,7 @@ resource "tfe_workspace_variable_set" "github_common" {
 # infrastructure- workspaces
 resource "tfe_workspace" "infrastructure_staging" {
   name              = "infrastructure-staging"
+  tag_names         = ["infrastructure"]
   auto_apply        = true
   description       = "Infrastructure Workspace - staging"
   working_directory = "infrastructure"
@@ -36,6 +38,7 @@ resource "tfe_workspace" "infrastructure_staging" {
 }
 resource "tfe_workspace" "infrastructure_production" {
   name              = "infrastructure-production"
+  tag_names         = ["infrastructure"]
   auto_apply        = false
   description       = "Infrastructure Workspace - production"
   working_directory = "infrastructure"

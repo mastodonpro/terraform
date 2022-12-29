@@ -112,7 +112,7 @@ module "external_dns_irsa_role_eu-central-1" {
   oidc_providers = {
     ex = {
       provider_arn               = module.eks_eu-central-1.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:external-dns"]
+      namespace_service_accounts = ["external-dns:external-dns"]
     }
   }
 }

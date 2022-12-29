@@ -2,11 +2,11 @@
 
 # common workspace
 resource "tfe_workspace" "common" {
-  name                = "common"
+  name                = "1_common"
   tag_names           = ["common"]
   auto_apply          = false
   description         = "Common Workspace"
-  working_directory   = "common"
+  working_directory   = "1_common"
   global_remote_state = true
   vcs_repo {
     identifier     = "mastodonpro/terraform"
@@ -25,11 +25,11 @@ resource "tfe_workspace_variable_set" "github_common" {
 
 # infrastructure- workspaces
 resource "tfe_workspace" "infrastructure_staging" {
-  name              = "infrastructure-staging"
+  name              = "2_infrastructure-staging"
   tag_names         = ["infrastructure"]
   auto_apply        = true
   description       = "Infrastructure Workspace - staging"
-  working_directory = "infrastructure"
+  working_directory = "2_infrastructure"
   vcs_repo {
     identifier     = "mastodonpro/terraform"
     oauth_token_id = var.TFC_OAUTH_TOKEN_ID
@@ -37,11 +37,11 @@ resource "tfe_workspace" "infrastructure_staging" {
   organization = data.tfe_organization.mastodonpro.name
 }
 resource "tfe_workspace" "infrastructure_production" {
-  name              = "infrastructure-production"
+  name              = "2_infrastructure-production"
   tag_names         = ["infrastructure"]
   auto_apply        = false
   description       = "Infrastructure Workspace - production"
-  working_directory = "infrastructure"
+  working_directory = "2_infrastructure"
   vcs_repo {
     identifier     = "mastodonpro/terraform"
     oauth_token_id = var.TFC_OAUTH_TOKEN_ID

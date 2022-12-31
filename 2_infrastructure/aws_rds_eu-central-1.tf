@@ -1,7 +1,7 @@
 data "aws_kms_secrets" "rds_root_eu-central-1" {
   provider = aws.eu-central-1
   secret {
-    name    = "rds_root_eu-central-1"
+    name    = "rds_root"
     payload = var.rds_instance_config["${local.environment}_eu-central-1"].encrypted_root_password
   }
 }

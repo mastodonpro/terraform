@@ -13,19 +13,34 @@ locals {
   ][0]
 }
 
-resource "aws_default_subnet" "eu-west-1a" {
-  availability_zone = "eu-west-1a"
+### KMS ###
+resource "aws_kms_key" "sops_eu-central-1" {
+  provider    = aws.eu-central-1
+  description = "Key for Mozilla SOPS"
 }
-resource "aws_default_subnet" "eu-west-1b" {
-  availability_zone = "eu-west-1b"
-}
-resource "aws_default_subnet" "eu-west-1c" {
-  availability_zone = "eu-west-1c"
+resource "aws_kms_alias" "sops_eu-central-1" {
+  provider      = aws.eu-central-1
+  name          = "alias/sops_eu-central-1"
+  target_key_id = aws_kms_key.sops_eu-central-1.key_id
 }
 
-resource "aws_default_vpc" "default" {}
-resource "aws_default_security_group" "default" {
-  vpc_id = aws_default_vpc.default.id
+### NETWORKING ###
+resource "aws_default_subnet" "eu-central-1a" {
+  provider          = aws.eu-central-1
+  availability_zone = "eu-central-1a"
+}
+resource "aws_default_subnet" "eu-central-1b" {
+  provider          = aws.eu-central-1
+  availability_zone = "eu-central-1b"
+}
+resource "aws_default_subnet" "eu-central-1c" {
+  provider          = aws.eu-central-1
+  availability_zone = "eu-central-1c"
+}
+
+resource "aws_default_vpc" "eu-central-1" {}
+resource "aws_default_security_group" "eu-central-1" {
+  vpc_id = aws_default_vpc.eu-central-1.id
   ingress {
     protocol  = -1
     self      = true

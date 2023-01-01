@@ -29,7 +29,7 @@ resource "aws_security_group" "rds_eu-central-1" {
 }
 
 resource "aws_db_instance" "rds_eu-central-1" {
-  identifier                            = "rds_eu-central-1"
+  identifier                            = "rdseucentral1"
   instance_class                        = var.rds_instance_config["${local.environment}_eu-central-1"].instance_class
   allocated_storage                     = var.rds_instance_config["${local.environment}_eu-central-1"].allocated_storage
   max_allocated_storage                 = var.rds_instance_config["${local.environment}_eu-central-1"].max_allocated_storage

@@ -29,15 +29,17 @@ resource "aws_security_group" "rds_eu-central-1" {
 }
 
 resource "aws_db_instance" "rds_eu-central-1" {
-  identifier                            = "rdseucentral1"
+  identifier                            = "rds-eu-central-1"
   instance_class                        = var.rds_instance_config["${local.environment}_eu-central-1"].instance_class
   allocated_storage                     = var.rds_instance_config["${local.environment}_eu-central-1"].allocated_storage
   max_allocated_storage                 = var.rds_instance_config["${local.environment}_eu-central-1"].max_allocated_storage
   storage_type                          = var.rds_instance_config["${local.environment}_eu-central-1"].storage_type
   engine                                = "postgres"
-  engine_version                        = "13.7"
+  engine_version                        = "14.5"
+  parameter_group_name                  = "default.postgres14"
   username                              = "postgres"
   password                              = data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
+  iam_database_authentication_enabled   = true
   db_subnet_group_name                  = aws_db_subnet_group.rds_eu-central-1.name
   vpc_security_group_ids                = [aws_default_security_group.eu-central-1.id, aws_security_group.rds_eu-central-1.id]
   publicly_accessible                   = true

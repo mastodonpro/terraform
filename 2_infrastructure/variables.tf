@@ -69,7 +69,7 @@ variable "rds_instance_config" {
       storage_type                = "gp2"          // ~8,13$ per month
       allocated_storage           = 64
       max_allocated_storage       = 256
-      backup_retention_period     = 7
+      backup_retention_period     = 1
       encrypted_root_password     = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAECCL9Rp1VGSED7y7JiRyg6AAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM1RlcMhGIxp7oPd/QAgEQgDB/UA6u5nrhhbA2lxkhJoOszRKF2vof6iiBQ/e9Gkn+JKVD0/+DltLLcFNTdg7REe8="
       mastodon_encrypted_password = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAGdcCUkEaBrvCBIav5PRw6eAAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMWQLGvaolA5pqRMx+AgEQgDBewAO6P3Hxm6pFTlwf6+xv35098gHJafx/MxRWK5ZnvTWJ7fEJzmNT3jN6gsdvhBc="
     }
@@ -78,7 +78,7 @@ variable "rds_instance_config" {
       storage_type                = "gp2"          // ~32.51$ per month
       allocated_storage           = 256
       max_allocated_storage       = 1024
-      backup_retention_period     = 1
+      backup_retention_period     = 7
       encrypted_root_password     = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgGNL6jcWo2Uzp+CTSiC8jSGAAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMuxG1Bw6aCsFxJ5yRAgEQgDCcKc0GbEcslp4dRtTM85bqk4M6D+YcldzOY0Z6evM5attdzeF9eT7u97UdgeJ6HPU="
       mastodon_encrypted_password = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgE5T5dZa6WKJW3c7M+k6rT/AAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM4aQ2JTEuYrn2EkNjAgEQgDAqieq0Pu89PprXvaSkjKWTl7wEadfOTFwrSxib60B1COl26/wYjTCDVgez7hx6wEA="
     }

@@ -5,7 +5,7 @@ data "tfe_organization" "tfc" {
 }
 data "tfe_workspace" "apps" {
   name         = "apps-${local.environment}"
-  organization = "mastodonpro"
+  organization = data.tfe_organization.tfc.name
 }
 
 # https://github.com/aws/containers-roadmap/issues/474#issuecomment-1089845804

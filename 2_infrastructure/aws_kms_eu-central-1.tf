@@ -33,16 +33,9 @@ resource "aws_iam_policy" "kms_sops_eu-central-1" {
   })
 }
 resource "tfe_variable_set" "sops" {
-  name         = "SOPS"
+  name         = "SOPS - ${local.environment}"
   description  = "Mozilla SOPS variables."
   organization = data.tfe_organization.tfc.id
-}
-resource "tfe_variable" "sops_kms_arn_eu-central-1" {
-  key             = "SOPS_KMS_ARN"
-  description     = "KMS Key ARN for SOPS eu-central-1"
-  value           = aws_kms_key.sops_eu-central-1.arn
-  category        = "env"
-  variable_set_id = tfe_variable_set.sops.id
 }
 
 # SOPS vars

@@ -4,7 +4,7 @@ data "tfe_organization" "tfc" {
   name = "mastodonpro"
 }
 data "tfe_workspace" "apps" {
-  name         = "app-${local.environment}"
+  name         = "apps-${local.environment}"
   organization = "mastodonpro"
 }
 

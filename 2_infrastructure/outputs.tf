@@ -15,13 +15,27 @@ output "eks_eu-central-1_sensitive" {
 }
 
 output "mastodonpro_aws_route53_name_servers" {
-  value       = aws_route53_zone.mpro.name_servers
   description = "The Name Servers of the Mastodon pro Route53 zone."
+  value       = aws_route53_zone.mpro.name_servers
 }
 
 output "iam_kms_sops_arn" {
+  description = "The IAM ARN of the KMS policy for the SOPS key for eks"
   value = {
     eu-central-1 = aws_iam_policy.kms_sops_eu-central-1.arn
-    description  = "The IAM ARN of the KMS policy for the SOPS key for eks"
   }
+}
+
+output "rds_address" {
+  description = "The address of the RDS instance"
+  value = {
+    eu-central-1 = aws_db_instance.rds_eu-central-1.address
+  }
+}
+output "rds_encrypted_password" {
+  description = "The encrypted password for the RDS root user"
+  value = {
+    eu-central-1 = var.rds_instance_config["${local.environment}_eu-central-1"].encrypted_root_password
+  }
+  sensitive = true
 }

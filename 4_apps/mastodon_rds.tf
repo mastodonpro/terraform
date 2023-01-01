@@ -34,6 +34,7 @@ data "external" "sops_mastodon_postgres" {
   program     = ["/bin/bash", "sops.sh"]
   working_dir = "${path.module}/sops"
   query = {
+    kms_arn     = data.tfe_outputs.infrastructure.values.sops_kms_arn.eu-central-1
     unencrypted = <<-EOT
       # Managed by Terraform ${var.ATLAS_WORKSPACE_NAME}
       apiVersion: v1

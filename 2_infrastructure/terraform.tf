@@ -8,9 +8,6 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.10"
     }
-    tfe = {
-      version = "~> 0.38.0"
-    }
   }
   cloud {
     organization = "mastodonpro"
@@ -62,6 +59,4 @@ provider "kubernetes" {
     # This requires the awscli to be installed locally where Terraform is executed
     args = ["eks", "get-token", "--cluster-name", module.eks_eu-central-1.cluster_name]
   }
-}
-provider "tfe" {
 }

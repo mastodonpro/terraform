@@ -32,14 +32,3 @@ resource "aws_iam_policy" "kms_sops_eu-central-1" {
     ]
   })
 }
-resource "tfe_variable_set" "sops" {
-  name         = "SOPS - ${local.environment}"
-  description  = "Mozilla SOPS variables."
-  organization = data.tfe_organization.tfc.id
-}
-
-# SOPS vars
-resource "tfe_workspace_variable_set" "sops_apps" {
-  variable_set_id = tfe_variable_set.sops.id
-  workspace_id    = data.tfe_workspace.apps.id
-}

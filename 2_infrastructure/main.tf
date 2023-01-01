@@ -1,13 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-data "tfe_organization" "tfc" {
-  name = "mastodonpro"
-}
-data "tfe_workspace" "apps" {
-  name         = "apps-${local.environment}"
-  organization = data.tfe_organization.tfc.name
-}
-
 # https://github.com/aws/containers-roadmap/issues/474#issuecomment-1089845804
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_roles#role-arns-with-paths-removed
 data "aws_iam_roles" "admin_sso_role" {

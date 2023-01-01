@@ -27,9 +27,12 @@ resource "aws_default_subnet" "eu-central-1c" {
   availability_zone = "eu-central-1c"
 }
 
-resource "aws_default_vpc" "eu-central-1" {}
+resource "aws_default_vpc" "eu-central-1" {
+  provider = aws.eu-central-1
+}
 resource "aws_default_security_group" "eu-central-1" {
-  vpc_id = aws_default_vpc.eu-central-1.id
+  provider = aws.eu-central-1
+  vpc_id   = aws_default_vpc.eu-central-1.id
   ingress {
     protocol  = -1
     self      = true

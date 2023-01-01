@@ -12,14 +12,17 @@ locals {
 variable "GITHUB_APP_ID" {
   type        = string
   description = "The id of the GitHub App"
+  default     = ""
 }
 variable "GITHUB_APP_INSTALLATION_ID" {
   type        = string
   description = "The Installation id of the GitHub App"
+  default     = ""
 }
 variable "GITHUB_APP_PEM_FILE" {
   type        = string
   description = "The contents of the secret of the GitHub App"
+  default     = ""
 }
 
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###

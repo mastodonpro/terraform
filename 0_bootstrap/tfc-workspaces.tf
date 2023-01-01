@@ -66,6 +66,16 @@ resource "tfe_workspace_variable_set" "github_infrastructure_production" {
   variable_set_id = tfe_variable_set.github.id
   workspace_id    = tfe_workspace.infrastructure_production.id
 }
+# Terraform Cloud variables
+resource "tfe_workspace_variable_set" "tfc_infrastructure_staging" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.infrastructure_staging.id
+}
+resource "tfe_workspace_variable_set" "tfc_infrastructure_production" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.infrastructure_production.id
+}
+
 
 ### kubernetes- workspaces ###
 resource "tfe_workspace" "kubernetes_staging" {
@@ -110,22 +120,14 @@ resource "tfe_workspace_variable_set" "github_kubernetes_production" {
   variable_set_id = tfe_variable_set.github.id
   workspace_id    = tfe_workspace.kubernetes_production.id
 }
-# Terraform Cloud variable
-resource "tfe_variable" "kubernetes_tfe_token_staging" {
-  key          = "TFE_TOKEN"
-  description  = "Terrform Cloud Token"
-  value        = var.TFE_TOKEN
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.kubernetes_staging.id
+# Terraform Cloud variables
+resource "tfe_workspace_variable_set" "tfc_kubernetes_staging" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.kubernetes_staging.id
 }
-resource "tfe_variable" "kubernetes_tfe_token_production" {
-  key          = "TFE_TOKEN"
-  description  = "Terrform Cloud Token"
-  value        = var.TFE_TOKEN
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.kubernetes_production.id
+resource "tfe_workspace_variable_set" "tfc_kubernetes_production" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.kubernetes_production.id
 }
 
 ### apps- workspaces ###
@@ -171,20 +173,12 @@ resource "tfe_workspace_variable_set" "github_apps_production" {
   variable_set_id = tfe_variable_set.github.id
   workspace_id    = tfe_workspace.apps_production.id
 }
-# Terraform Cloud variable
-resource "tfe_variable" "apps_tfe_token_staging" {
-  key          = "TFE_TOKEN"
-  description  = "Terrform Cloud Token"
-  value        = var.TFE_TOKEN
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.apps_staging.id
+# Terraform Cloud variables
+resource "tfe_workspace_variable_set" "tfc_apps_staging" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.apps_staging.id
 }
-resource "tfe_variable" "apps_tfe_token_production" {
-  key          = "TFE_TOKEN"
-  description  = "Terrform Cloud Token"
-  value        = var.TFE_TOKEN
-  category     = "env"
-  sensitive    = true
-  workspace_id = tfe_workspace.apps_production.id
+resource "tfe_workspace_variable_set" "tfc_apps_production" {
+  variable_set_id = tfe_variable_set.tfc.id
+  workspace_id    = tfe_workspace.apps_production.id
 }

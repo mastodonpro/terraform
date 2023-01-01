@@ -62,7 +62,7 @@ resource "tfe_variable" "github_app_installation_id" {
   category        = "terraform"
   variable_set_id = tfe_variable_set.github.id
 }
-# we need a terraform variable because of newlines
+# we need a terraform variable because newlines are not supported in EVN variables
 resource "tfe_variable" "github_app_pem_file" {
   key             = "GITHUB_APP_PEM_FILE"
   description     = "The contents of the secret of the GitHub App"
@@ -70,4 +70,19 @@ resource "tfe_variable" "github_app_pem_file" {
   category        = "terraform"
   sensitive       = true
   variable_set_id = tfe_variable_set.github.id
+}
+
+# TFC Variable Set
+resource "tfe_variable_set" "tfc" {
+  name         = "Terraform Cloud"
+  description  = "Variables to access Terraform Cloud"
+  organization = data.tfe_organization.mastodonpro.name
+}
+resource "tfe_variable" "tfe_token" {
+  key             = "TFE_TOKEN"
+  description     = "Terrform Cloud Token"
+  value           = var.TFE_TOKEN
+  category        = "env"
+  sensitive       = true
+  variable_set_id = tfe_variable_set.tfc.id
 }

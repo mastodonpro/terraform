@@ -70,8 +70,8 @@ variable "rds_instance_config" {
       allocated_storage           = 64
       max_allocated_storage       = 256
       backup_retention_period     = 1
-      encrypted_root_password     = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAECCL9Rp1VGSED7y7JiRyg6AAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM1RlcMhGIxp7oPd/QAgEQgDB/UA6u5nrhhbA2lxkhJoOszRKF2vof6iiBQ/e9Gkn+JKVD0/+DltLLcFNTdg7REe8="
-      mastodon_encrypted_password = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAGdcCUkEaBrvCBIav5PRw6eAAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMWQLGvaolA5pqRMx+AgEQgDBewAO6P3Hxm6pFTlwf6+xv35098gHJafx/MxRWK5ZnvTWJ7fEJzmNT3jN6gsdvhBc="
+      encrypted_root_password     = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAFCbSnCcN+jtRdA5fwmI0+gAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM9SIimLkuAw8fu4aRAgEQgC+0Y62ZuKuz76kFr5LvyLU9l3E1qsss7TFDcd8eXoyi0dLJz9sbegNy2ty1cPRPJg=="
+      mastodon_encrypted_password = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAGCSt9UT4yfYXuozTVYpaCGAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMhJnB1kuDIP+lsI2XAgEQgC8V1ys06HmZqBc+A3Y656mZrzHdGmBVDJ3bqHvRge+w0DQ0Z53BGMRQdjBBQ2+nrQ=="
     }
     production_eu-central-1 = {
       instance_class              = "db.t4g.large" // ~102.67$ per month
@@ -79,8 +79,8 @@ variable "rds_instance_config" {
       allocated_storage           = 256
       max_allocated_storage       = 1024
       backup_retention_period     = 7
-      encrypted_root_password     = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgGNL6jcWo2Uzp+CTSiC8jSGAAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMuxG1Bw6aCsFxJ5yRAgEQgDCcKc0GbEcslp4dRtTM85bqk4M6D+YcldzOY0Z6evM5attdzeF9eT7u97UdgeJ6HPU="
-      mastodon_encrypted_password = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgE5T5dZa6WKJW3c7M+k6rT/AAAAczBxBgkqhkiG9w0BBwagZDBiAgEAMF0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM4aQ2JTEuYrn2EkNjAgEQgDAqieq0Pu89PprXvaSkjKWTl7wEadfOTFwrSxib60B1COl26/wYjTCDVgez7hx6wEA="
+      encrypted_root_password     = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgFsYOS2qgaXzoEroxFqkdJJAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMKNgUj1qDQECRIjxCAgEQgC/lLTiMFrG/AyU5F89TdsdFMuRq/FRryB5JWQofmUG7tRLl8Rbsv6ttSaGcVq0BOA=="
+      mastodon_encrypted_password = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgEWA2/belPpFwry8Mx7Ub/lAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMlH6nhrhw0DbFuKWfAgEQgC91I52eQDtO8iCpMd8T/dRAd2DmWgG9D5YJgSAw0pWvBMgnUO4bGYoY+ahbnJwh/A=="
     }
   }
 }

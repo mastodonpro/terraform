@@ -19,7 +19,7 @@ output "mastodonpro_aws_route53_name_servers" {
   value       = aws_route53_zone.mpro.name_servers
 }
 
-output "kms_sops_arn" {
+output "kms_arn_sops" {
   description = "The ARN of the SOPS KMS key"
   value = {
     eu-central-1 = aws_kms_key.sops_eu-central-1.arn

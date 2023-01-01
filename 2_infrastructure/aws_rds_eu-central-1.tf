@@ -29,26 +29,33 @@ resource "aws_security_group" "rds_eu-central-1" {
 }
 
 resource "aws_db_instance" "rds_eu-central-1" {
-  identifier                            = "rds-eu-central-1"
-  instance_class                        = var.rds_instance_config["${local.environment}_eu-central-1"].instance_class
-  allocated_storage                     = var.rds_instance_config["${local.environment}_eu-central-1"].allocated_storage
-  max_allocated_storage                 = var.rds_instance_config["${local.environment}_eu-central-1"].max_allocated_storage
-  storage_type                          = var.rds_instance_config["${local.environment}_eu-central-1"].storage_type
-  engine                                = "postgres"
-  engine_version                        = "14.5"
-  parameter_group_name                  = "default.postgres14"
-  username                              = "postgres"
-  password                              = "test1234!" # data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
-  iam_database_authentication_enabled   = true
-  db_subnet_group_name                  = aws_db_subnet_group.rds_eu-central-1.name
-  vpc_security_group_ids                = [aws_default_security_group.eu-central-1.id, aws_security_group.rds_eu-central-1.id]
-  publicly_accessible                   = true
+  provider   = aws.eu-central-1
+  identifier = "rds-eu-central-1"
+
+  instance_class        = var.rds_instance_config["${local.environment}_eu-central-1"].instance_class
+  allocated_storage     = var.rds_instance_config["${local.environment}_eu-central-1"].allocated_storage
+  max_allocated_storage = var.rds_instance_config["${local.environment}_eu-central-1"].max_allocated_storage
+  storage_type          = var.rds_instance_config["${local.environment}_eu-central-1"].storage_type
+
+  engine               = "postgres"
+  engine_version       = "14.5"
+  parameter_group_name = "default.postgres14"
+
+  username                            = "postgres"
+  password                            = data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
+  iam_database_authentication_enabled = true
+
+  db_subnet_group_name   = aws_db_subnet_group.rds_eu-central-1.name
+  vpc_security_group_ids = [aws_default_security_group.eu-central-1.id, aws_security_group.rds_eu-central-1.id]
+  publicly_accessible    = true
+
   backup_retention_period               = var.rds_instance_config["${local.environment}_eu-central-1"].backup_retention_period
   monitoring_interval                   = 60
   monitoring_role_arn                   = aws_iam_role.rds_enhanced_monitoring.arn
   performance_insights_enabled          = true
   performance_insights_retention_period = 7
-  deletion_protection                   = true
+
+  deletion_protection = true
 }
 
 resource "aws_route53_record" "rds_eu-central-1" {

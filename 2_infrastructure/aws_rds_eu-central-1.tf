@@ -38,7 +38,7 @@ resource "aws_db_instance" "rds_eu-central-1" {
   engine_version                        = "14.5"
   parameter_group_name                  = "default.postgres14"
   username                              = "postgres"
-  password                              = data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
+  password                              = "test1234!" # data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
   iam_database_authentication_enabled   = true
   db_subnet_group_name                  = aws_db_subnet_group.rds_eu-central-1.name
   vpc_security_group_ids                = [aws_default_security_group.eu-central-1.id, aws_security_group.rds_eu-central-1.id]

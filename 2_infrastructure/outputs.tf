@@ -19,10 +19,10 @@ output "mastodonpro_aws_route53_name_servers" {
   value       = aws_route53_zone.mpro.name_servers
 }
 
-output "iam_kms_sops_arn" {
-  description = "The IAM ARN of the KMS policy for the SOPS key for eks"
+output "kms_sops_arn" {
+  description = "The ARN of the SOPS KMS key"
   value = {
-    eu-central-1 = aws_iam_policy.kms_sops_eu-central-1.arn
+    eu-central-1 = aws_kms_key.sops_eu-central-1.arn
   }
 }
 

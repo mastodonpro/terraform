@@ -8,7 +8,7 @@ data "aws_kms_secrets" "rds_root_eu-central-1" {
 
 resource "aws_db_subnet_group" "rds_eu-central-1" {
   provider = aws.eu-central-1
-  name     = "rds_eu-central-1"
+  name     = "rds"
   subnet_ids = [
     aws_default_subnet.eu-central-1a.id,
     aws_default_subnet.eu-central-1b.id,
@@ -18,7 +18,7 @@ resource "aws_db_subnet_group" "rds_eu-central-1" {
 
 resource "aws_security_group" "rds_eu-central-1" {
   provider = aws.eu-central-1
-  name     = "rds_eu-central-1"
+  name     = "rds"
 
   ingress {
     protocol    = "tcp"
@@ -30,7 +30,7 @@ resource "aws_security_group" "rds_eu-central-1" {
 
 resource "aws_db_instance" "rds_eu-central-1" {
   provider   = aws.eu-central-1
-  identifier = "rds-eu-central-1"
+  identifier = "rds"
 
   instance_class        = var.rds_instance_config["${local.environment}_eu-central-1"].instance_class
   allocated_storage     = var.rds_instance_config["${local.environment}_eu-central-1"].allocated_storage
@@ -56,12 +56,4 @@ resource "aws_db_instance" "rds_eu-central-1" {
   performance_insights_retention_period = 7
 
   deletion_protection = true
-}
-
-resource "aws_route53_record" "rds_eu-central-1" {
-  zone_id = aws_route53_zone.mpro.zone_id
-  name    = "rds_eu-central-1"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_db_instance.rds_eu-central-1.address]
 }

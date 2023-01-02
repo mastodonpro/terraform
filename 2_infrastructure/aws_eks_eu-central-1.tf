@@ -35,6 +35,8 @@ module "eks_eu-central-1" {
     }
     aws-ebs-csi-driver = {
       most_recent = true
+      # add irsa annotation for role to cluster_addons
+      service_account_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ebs-csi-controller-sa"
     }
   }
 
@@ -58,6 +60,9 @@ module "eks_eu-central-1" {
     ami_type       = "BOTTLEROCKET_x86_64"
     platform       = "bottlerocket"
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    #iam_role_additional_policies = {
+    #  AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    #}
   }
 
   eks_managed_node_groups = {
@@ -97,7 +102,6 @@ module "vpc_eks_eu-central-1" {
   public_subnet_tags = {
     "kubernetes.io/role/elb" = 1
   }
-
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
   }
@@ -110,11 +114,11 @@ module "ebs_csi_irsa_role_eu-central-1" {
   providers = {
     aws = aws.eu-central-1
   }
-  role_name             = "ebs-csi-controller-sa"
-  attach_ebs_csi_policy = true
+  role_name = "ebs-csi-controller-sa"
   role_policy_arns = {
-    "ebs_csi" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ebs-csi-controller-sa"
+    "ebs_csi" = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   }
+  # attach_ebs_csi_policy = true
   oidc_providers = {
     ex = {
       provider_arn               = module.eks_eu-central-1.oidc_provider_arn

@@ -58,6 +58,6 @@ provider "github" {
 provider "postgresql" {
   alias     = "aws_eu-central-1"
   host      = data.tfe_outputs.infrastructure.values.rds_address.eu-central-1
-  password  = data.aws_kms_secrets.postgres_aws_eu-central-1.plaintext["root"]
+  password  = data.aws_kms_secrets.eu-central-1.plaintext["postgres_root"]
   superuser = false
 }

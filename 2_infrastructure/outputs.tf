@@ -39,3 +39,10 @@ output "rds_encrypted_password" {
   }
   sensitive = true
 }
+
+output "redis_address" {
+  description = "The address of the Elasticache instance"
+  value = {
+    eu-central-1 = aws_elasticache_cluster.redis_eu-central-1.cache_nodes.0.address
+  }
+}

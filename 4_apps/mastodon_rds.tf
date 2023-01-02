@@ -7,7 +7,7 @@ resource "postgresql_role" "mastodon" {
   provider = postgresql.aws_eu-central-1
   name     = "mastodon"
   login    = true
-  password = data.aws_kms_secrets.postgres_aws_eu-central-1.plaintext["mastodon"]
+  password = data.aws_kms_secrets.eu-central-1.plaintext["postgres_mastodon"]
 }
 
 resource "postgresql_grant" "mastodon_schema_grant" {
@@ -29,24 +29,6 @@ resource "postgresql_grant" "mastodon_table_grant" {
   privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES", "TRIGGER"]
 }
 
-# Create SOPS encrypted secret
-data "external" "sops_mastodon_postgres" {
-  program     = ["/bin/bash", "sops.sh"]
-  working_dir = "${path.module}/sops"
-  query = {
-    kms_arn     = data.tfe_outputs.infrastructure.values.kms_arn_sops.eu-central-1
-    unencrypted = <<-EOT
-      # Managed by Terraform ${var.ATLAS_WORKSPACE_NAME}
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: postgres
-        namespace: mastodon
-      data:
-        password: ${base64encode(data.aws_kms_secrets.postgres_aws_eu-central-1.plaintext["mastodon"])}
-    EOT
-  }
-}
 # Write configmap to GitHub
 resource "github_repository_file" "fleet_infra_mastodon_values_postgres" {
   repository          = "fleet-infra"
@@ -67,8 +49,26 @@ resource "github_repository_file" "fleet_infra_mastodon_values_postgres" {
   commit_email        = "sysadmins+terraform@mastodonpro.com"
   commit_message      = "Update HelmRelease values via Terraform"
 }
+# Create SOPS encrypted secret
+data "external" "sops_mastodon_postgres" {
+  program     = ["/bin/bash", "sops.sh"]
+  working_dir = "${path.module}/sops"
+  query = {
+    kms_arn     = data.tfe_outputs.infrastructure.values.kms_arn_sops.eu-central-1
+    unencrypted = <<-EOT
+      # Managed by Terraform ${var.ATLAS_WORKSPACE_NAME}
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: postgres
+        namespace: mastodon
+      data:
+        password: ${base64encode(data.aws_kms_secrets.eu-central-1.plaintext["postgres_mastodon"])}
+    EOT
+  }
+}
 # Write encrypted secret file to GitHub
-resource "github_repository_file" "fleet_infra_mastodon_secret_db" {
+resource "github_repository_file" "fleet_infra_mastodon_secret_postgres" {
   repository          = "fleet-infra"
   file                = "apps/${local.environment}/aws_eu-central-1/mastodon-secret-postgres.yaml"
   content             = "${data.external.sops_mastodon_postgres.result.encrypted}\n" # linter requires newline

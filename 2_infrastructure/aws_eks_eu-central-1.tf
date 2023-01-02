@@ -19,7 +19,7 @@ module "eks_eu-central-1" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
 
-  cluster_name                   = "${local.environment}_aws_eu-central-1"
+  cluster_name                   = local.environment
   cluster_version                = "1.24"
   cluster_endpoint_public_access = true
 
@@ -75,7 +75,7 @@ module "vpc_eks_eu-central-1" {
     aws = aws.eu-central-1
   }
 
-  name = "eks_eu-central-1"
+  name = "eks"
   cidr = local.vpc_cidr_eu-central-1
 
   azs             = local.azs_eu-central-1
@@ -160,7 +160,7 @@ module "kustomize_controller_irsa_role_eu-central-1" {
   }
   role_name = "kustomize-controller"
   role_policy_arns = {
-    "kms_eu-central-1" = aws_iam_policy.kms_sops_eu-central-1.arn
+    "kms" = aws_iam_policy.kms_sops_eu-central-1.arn
   }
   oidc_providers = {
     ex = {

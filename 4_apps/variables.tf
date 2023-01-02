@@ -24,7 +24,7 @@ variable "GITHUB_APP_PEM_FILE" {
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###
 
 # create the encrypted passwords without newline!
-# aws kms --region eu-central-1 encrypt --key-id alias/sops_eu-central-1 --plaintext fileb://<(echo -n 'mypassword') --output text --query CiphertextBlob
+# aws kms --region eu-central-1 encrypt --key-id alias/sops --plaintext fileb://<(echo -n 'mypassword') --output text --query CiphertextBlob
 variable "postgres_encrypted_passwords" {
   type        = map(any)
   description = "Map of instance config for the RDS Postgres instance"

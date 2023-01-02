@@ -5,6 +5,6 @@ resource "aws_kms_key" "sops_eu-central-1" {
 }
 resource "aws_kms_alias" "sops_eu-central-1" {
   provider      = aws.eu-central-1
-  name          = "alias/sops_eu-central-1"
+  name          = "alias/sops"
   target_key_id = aws_kms_key.sops_eu-central-1.key_id
 }

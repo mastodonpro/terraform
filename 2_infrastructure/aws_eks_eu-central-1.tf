@@ -112,6 +112,9 @@ module "ebs_csi_irsa_role_eu-central-1" {
   }
   role_name             = "ebs-csi-controller-sa"
   attach_ebs_csi_policy = true
+  role_policy_arns = {
+    "ebs_csi" = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ebs-csi-controller-sa"
+  }
   oidc_providers = {
     ex = {
       provider_arn               = module.eks_eu-central-1.oidc_provider_arn

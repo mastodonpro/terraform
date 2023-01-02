@@ -7,7 +7,7 @@ resource "tls_private_key" "flux_aws_eu-central-1" {
 # Flux
 locals {
   patches = {
-    sops    = <<-EOT
+    sops = <<-EOT
       apiVersion: v1
       kind: ServiceAccount
       metadata:
@@ -15,15 +15,6 @@ locals {
         namespace: flux-system
         annotations:
           eks.amazonaws.com/role-arn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/kustomize-controller
-      EOT
-    ebs_csi = <<-EOT
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        name: ebs-csi-controller-sa
-        namespace: kube-system
-        annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ebs-csi-controller-sa
       EOT
   }
 }

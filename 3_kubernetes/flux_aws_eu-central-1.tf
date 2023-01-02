@@ -7,7 +7,7 @@ resource "tls_private_key" "flux_aws_eu-central-1" {
 # Flux
 locals {
   patches = {
-    sops = <<EOT
+    sops = <<-EOT
       apiVersion: v1
       kind: ServiceAccount
       metadata:

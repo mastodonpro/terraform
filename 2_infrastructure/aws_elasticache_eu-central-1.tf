@@ -1,4 +1,4 @@
-resource "aws_db_subnet_group" "redis_eu-central-1" {
+resource "aws_elasticache_subnet_group" "redis_eu-central-1" {
   provider = aws.eu-central-1
   name     = "redis"
   subnet_ids = [
@@ -31,5 +31,5 @@ resource "aws_elasticache_cluster" "redis_eu-central-1" {
     aws_default_security_group.eu-central-1.id,
     aws_security_group.redis_eu-central-1.id,
   ]
-  subnet_group_name = aws_db_subnet_group.redis_eu-central-1.name
+  subnet_group_name = aws_elasticache_subnet_group.redis_eu-central-1.name
 }

@@ -19,11 +19,9 @@ fi
 test -e sops || curl -Lo sops https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.${ARCH}
 chmod 0755 sops
 
-# Append setting for the KMS ARN to the config file, adding space for indentation first
-echo -n "  " >> .sops.yaml
-# Extract "unencrypted" argument from the input into file
-eval "$(jq -r '@sh "echo \(.unencrypted) > ${tmp} && echo kms: \(.kms_arn) >> ${tmp_d}/.sops.yaml"')"
-
+# Extract "unencrypted" argument from the input into file and add KMS ARN to .sops.yaml
+eval "$(jq -r '@sh "echo \(.unencrypted) > ${tmp} && echo \"  kms: \(.kms_arn)\" >> ${tmp_d}/.sops.yaml"')"
+cat ${tmp_d}/.sops.yaml
 # Run SOPS and return encrypted file
 # The output of SOPS changes each run, so also provide the sha256sum
 jq -n \

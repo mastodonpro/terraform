@@ -14,7 +14,7 @@ locals {
         name: kustomize-controller
         namespace: flux-system
         annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSKMSSopsIAMPolicy_eu-central-1
+          eks.amazonaws.com/role-arn: ${data.tfe_outputs.infrastructure.values.kustomize-controller_iam_role_arn.eu-central-1}
       EOT
   }
 }

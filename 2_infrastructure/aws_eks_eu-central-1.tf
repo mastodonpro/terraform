@@ -33,6 +33,9 @@ module "eks_eu-central-1" {
     vpc-cni = {
       most_recent = true
     }
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
   }
 
   vpc_id                   = module.vpc_eks_eu-central-1.vpc_id

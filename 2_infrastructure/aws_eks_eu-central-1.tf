@@ -134,8 +134,8 @@ module "load_balancer_controller_irsa_role_eu-central-1" {
 ### AWS KMS ACCESS FOR KUBERNETES ###
 # https://fluxcd.io/docs/guides/mozilla-sops/
 # This is required by flux to be able to decrypt SOPS secrets
-resource "aws_iam_policy" "kustomize-controller_kms_eu-central-1" {
-  name        = "AmazonEKS_Kustomize_Controller_KMS_Policy_eu-central-1"
+resource "aws_iam_policy" "kms_sops_eu-central-1" {
+  name        = "AmazonEKS_KMS_SOPS_Policy_eu-central-1"
   description = "AWS KMS Policy for SOPS - required by eks/flux"
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -158,8 +158,10 @@ module "kustomize_controller_irsa_role_eu-central-1" {
   providers = {
     aws = aws.eu-central-1
   }
-  role_name        = "kustomize-controller"
-  role_policy_arns = [aws_iam_policy.kustomize-controller_kms_eu-central-1.arn]
+  role_name = "kustomize-controller"
+  role_policy_arns = {
+    "kms_eu-central-1" = aws_iam_policy.kms_sops_eu-central-1.arn
+  }
   oidc_providers = {
     ex = {
       provider_arn               = module.eks_eu-central-1.oidc_provider_arn

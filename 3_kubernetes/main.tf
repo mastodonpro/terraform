@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "tfe_outputs" "infrastructure" {
   organization = "mastodonpro"
   workspace    = "infrastructure-${local.environment}"

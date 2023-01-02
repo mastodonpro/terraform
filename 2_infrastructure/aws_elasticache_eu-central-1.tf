@@ -11,7 +11,6 @@ resource "aws_elasticache_subnet_group" "redis_eu-central-1" {
 resource "aws_security_group" "redis_eu-central-1" {
   provider = aws.eu-central-1
   name     = "redis"
-
   ingress {
     protocol    = "tcp"
     from_port   = 6379
@@ -21,6 +20,7 @@ resource "aws_security_group" "redis_eu-central-1" {
 }
 
 resource "aws_elasticache_cluster" "redis_eu-central-1" {
+  provider             = aws.eu-central-1
   cluster_id           = "redis"
   engine               = "redis"
   node_type            = "cache.t4g.micro"

@@ -25,12 +25,6 @@ output "kms_arn_sops" {
     eu-central-1 = aws_kms_key.sops_eu-central-1.arn
   }
 }
-output "kustomize-controller_iam_role_arn" {
-  description = "The ARN of the Kustomize Controller IAM role"
-  value = {
-    eu-central-1 = module.kustomize_controller_irsa_role_eu-central-1.iam_role_arn
-  }
-}
 
 output "rds_address" {
   description = "The address of the RDS instance"

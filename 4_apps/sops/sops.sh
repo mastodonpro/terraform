@@ -22,8 +22,9 @@ chmod 0755 sops
 # Extract "unencrypted" argument from the input into file
 eval "$(jq -r '@sh "echo \(.unencrypted) > ${tmp}"')"
 
-# Set SOPS_KMS_ARN environment variable
-eval "$(jq -r '@sh "export SOPS_KMS_ARN=\(.kms_arn)"')"
+# Append setting for the KMS ARN to the config file
+INDENT="  "
+eval "$(jq -r '@sh "echo ${INDENT}\(.kms_arn) >> ${tmp_d}/.sops.yaml"')"
 
 # Run SOPS and return encrypted file
 # The output of SOPS changes each run, so also provide the sha256sum

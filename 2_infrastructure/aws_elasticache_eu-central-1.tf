@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "redis_eu-central-1" {
   provider = aws.eu-central-1
-  name     = "redis_eu-central-1"
+  name     = "redis"
   subnet_ids = [
     aws_default_subnet.eu-central-1a.id,
     aws_default_subnet.eu-central-1b.id,

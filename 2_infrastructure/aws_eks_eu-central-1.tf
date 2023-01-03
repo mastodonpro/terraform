@@ -106,8 +106,20 @@ module "vpc_eks_eu-central-1" {
     "kubernetes.io/role/internal-elb" = 1
   }
 }
+# VPC peering
+resource "aws_vpc_peering_connection" "eks" {
+  peer_vpc_id = aws_default_vpc.eu-central-1.id
+  vpc_id      = module.vpc_eks_eu-central-1.vpc_id
+  auto_accept = true
+  accepter {
+    allow_remote_vpc_dns_resolution = true
+  }
+  tags = {
+    "Name" = "eks"
+  }
+}
 
-# Addons
+### ADDONS ###
 module "ebs_csi_irsa_role_eu-central-1" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "5.9.2"

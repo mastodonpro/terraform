@@ -116,7 +116,18 @@ resource "aws_vpc_peering_connection" "eks" {
     allow_remote_vpc_dns_resolution = true
   }
   tags = {
-    "Name" = "eks"
+    "Name" = "eks-to-default"
+  }
+}
+resource "aws_route_table" "eks" {
+  provider = aws.eu-central-1
+  vpc_id   = module.vpc_eks_eu-central-1.vpc_id
+  route {
+    cidr_block                = aws_default_vpc.eu-central-1.cidr_block
+    vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
+  }
+  tags = {
+    Name = "eks-to-default"
   }
 }
 

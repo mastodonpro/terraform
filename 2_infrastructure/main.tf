@@ -46,3 +46,7 @@ resource "aws_default_security_group" "eu-central-1" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_default_route_table" "eu-central-1" {
+  default_route_table_id = aws_default_vpc.eu-central-1.default_route_table_id
+}

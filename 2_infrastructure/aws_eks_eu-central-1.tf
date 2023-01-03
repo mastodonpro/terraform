@@ -32,6 +32,8 @@ module "eks_eu-central-1" {
     }
     vpc-cni = {
       most_recent = true
+      # add irsa annotation for role to cluster_addons
+      service_account_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/"
     }
     aws-ebs-csi-driver = {
       most_recent = true
@@ -122,28 +124,18 @@ resource "aws_vpc_peering_connection" "eks" {
   }
 }
 # Route table for the eks VPC to connect to the default VPC
-resource "aws_route_table" "eks" {
-  provider = aws.eu-central-1
-  vpc_id   = module.vpc_eks_eu-central-1.vpc_id
-  route {
-    cidr_block                = aws_default_vpc.eu-central-1.cidr_block
-    vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
-  }
-  tags = {
-    Name = "eks-to-default"
-  }
+resource "aws_route" "eks_default" {
+  provider                  = aws.eu-central-1
+  route_table_id            = module.vpc_eks_eu-central-1.private_route_table_ids[0]
+  destination_cidr_block    = aws_default_vpc.eu-central-1.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
 }
-# Route table from the default VPC back to the eks VPC
-resource "aws_route_table" "default_eks" {
-  provider = aws.eu-central-1
-  vpc_id   = aws_default_vpc.eu-central-1.id
-  route {
-    cidr_block                = module.vpc_eks_eu-central-1.vpc_cidr_block
-    vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
-  }
-  tags = {
-    Name = "default-to-eks"
-  }
+# Route table for the default VPC to connect to the eks VPC
+resource "aws_route" "default_eks" {
+  provider                  = aws.eu-central-1
+  route_table_id            = aws_default_route_table.eu-central-1.id
+  destination_cidr_block    = module.vpc_eks_eu-central-1.vpc_cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
 }
 
 ### ADDONS ###

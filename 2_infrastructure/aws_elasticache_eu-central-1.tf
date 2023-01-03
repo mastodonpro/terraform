@@ -30,6 +30,9 @@ resource "aws_elasticache_replication_group" "redis_eu-central-1" {
   parameter_group_name = "default.redis7"
   engine_version       = "7.0"
 
+  num_node_groups         = 1
+  replicas_per_node_group = 0
+
   at_rest_encryption_enabled = true
   transit_encryption_enabled = true
 

@@ -47,7 +47,17 @@ resource "aws_default_security_group" "eu-central-1" {
   }
 }
 
+data "aws_internet_gateway" "eu-central-1" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [aws_default_vpc.eu-central-1.id]
+  }
+}
 resource "aws_default_route_table" "eu-central-1" {
   provider               = aws.eu-central-1
   default_route_table_id = aws_default_vpc.eu-central-1.default_route_table_id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = data.aws_internet_gateway.eu-central-1.id
+  }
 }

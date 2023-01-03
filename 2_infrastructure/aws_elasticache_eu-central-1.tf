@@ -20,8 +20,17 @@ resource "aws_security_group" "redis_eu-central-1" {
   tags = { Name = "redis" }
 }
 
+# https://github.com/hashicorp/terraform-provider-aws/issues/22123#issuecomment-989652326
+resource "aws_elasticache_replication_group" "redis_eu-central-1" {
+  provider                   = aws.eu-central-1
+  description                = "encrpytion enabled"
+  replication_group_id       = "redis-encrypted"
+  at_rest_encryption_enabled = true
+  transit_encryption_enabled = true
+}
 resource "aws_elasticache_cluster" "redis_eu-central-1" {
   provider             = aws.eu-central-1
+  replication_group_id = aws_elasticache_replication_group.redis_eu-central-1.id
   cluster_id           = "redis"
   engine               = "redis"
   node_type            = "cache.t4g.micro"

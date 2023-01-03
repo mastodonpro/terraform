@@ -1,4 +1,5 @@
 resource "aws_elasticache_user" "mastodon" {
+  provider      = aws.eu-central-1
   user_id       = "mastodon"
   user_name     = "mastodon"
   access_string = "on ~mastodon::* +@all"

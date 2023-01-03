@@ -109,7 +109,7 @@ module "vpc_eks_eu-central-1" {
   }
 }
 # VPC peering, so that eks can access AWS services in the default VPC
-resource "aws_vpc_peering_connection" "eks_default" {
+resource "aws_vpc_peering_connection" "eks" {
   provider    = aws.eu-central-1
   peer_vpc_id = aws_default_vpc.eu-central-1.id
   vpc_id      = module.vpc_eks_eu-central-1.vpc_id

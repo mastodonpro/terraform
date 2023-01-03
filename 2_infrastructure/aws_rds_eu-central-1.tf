@@ -19,13 +19,13 @@ resource "aws_db_subnet_group" "rds_eu-central-1" {
 resource "aws_security_group" "rds_eu-central-1" {
   provider = aws.eu-central-1
   name     = "rds"
-
   ingress {
     protocol    = "tcp"
     from_port   = 5432
     to_port     = 5432
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = { Name = "rds" }
 }
 
 resource "aws_db_instance" "rds_eu-central-1" {

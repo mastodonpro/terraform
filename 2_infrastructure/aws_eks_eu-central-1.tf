@@ -44,6 +44,8 @@ module "eks_eu-central-1" {
   subnet_ids               = module.vpc_eks_eu-central-1.private_subnets
   control_plane_subnet_ids = module.vpc_eks_eu-central-1.intra_subnets
 
+  # cluster_service_ipv4_cidr =
+
   manage_aws_auth_configmap = true
   aws_auth_accounts = [
     data.aws_caller_identity.current.account_id
@@ -106,8 +108,8 @@ module "vpc_eks_eu-central-1" {
     "kubernetes.io/role/internal-elb" = 1
   }
 }
-# VPC peering
-resource "aws_vpc_peering_connection" "eks" {
+# VPC peering, so that eks can access AWS services in the default VPC
+resource "aws_vpc_peering_connection" "eks_default" {
   provider    = aws.eu-central-1
   peer_vpc_id = aws_default_vpc.eu-central-1.id
   vpc_id      = module.vpc_eks_eu-central-1.vpc_id
@@ -119,6 +121,7 @@ resource "aws_vpc_peering_connection" "eks" {
     "Name" = "eks-to-default"
   }
 }
+# Route table for the eks VPC to connect to the default VPC
 resource "aws_route_table" "eks" {
   provider = aws.eu-central-1
   vpc_id   = module.vpc_eks_eu-central-1.vpc_id
@@ -128,6 +131,18 @@ resource "aws_route_table" "eks" {
   }
   tags = {
     Name = "eks-to-default"
+  }
+}
+# Route table from the default VPC back to the eks VPC
+resource "aws_route_table" "default_eks" {
+  provider = aws.eu-central-1
+  vpc_id   = aws_default_vpc.eu-central-1.id
+  route {
+    cidr_block                = module.vpc_eks_eu-central-1.vpc_cidr_block
+    vpc_peering_connection_id = aws_vpc_peering_connection.eks.id
+  }
+  tags = {
+    Name = "default-to-eks"
   }
 }
 

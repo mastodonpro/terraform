@@ -17,6 +17,7 @@ resource "aws_security_group" "redis_eu-central-1" {
     to_port     = 6379
     cidr_blocks = [module.vpc_eks_eu-central-1.vpc_cidr_block]
   }
+  tags = { Name = "redis" }
 }
 
 resource "aws_elasticache_cluster" "redis_eu-central-1" {

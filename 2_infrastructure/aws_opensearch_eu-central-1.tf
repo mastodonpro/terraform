@@ -15,7 +15,7 @@ resource "aws_iam_service_linked_role" "opensearch" {
 
 resource "aws_opensearch_domain" "opensearch_eu-central-1" {
   provider       = aws.eu-central-1
-  domain_name    = "mastodon"
+  domain_name    = "opensearch"
   engine_version = "OpenSearch_2.3"
 
   cluster_config {

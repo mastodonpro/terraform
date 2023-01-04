@@ -49,8 +49,9 @@ resource "aws_opensearch_domain" "opensearch_eu-central-1" {
   vpc_options {
     subnet_ids = [
       aws_default_subnet.eu-central-1a.id,
-      aws_default_subnet.eu-central-1b.id,
-      aws_default_subnet.eu-central-1c.id,
+      # as long zone_awareness_enabled is false, we can only use one subnet
+      # aws_default_subnet.eu-central-1b.id,
+      # aws_default_subnet.eu-central-1c.id,
     ]
     security_group_ids = [aws_default_security_group.eu-central-1.id, aws_security_group.opensearch_eu-central-1.id]
   }

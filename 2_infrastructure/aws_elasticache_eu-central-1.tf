@@ -42,8 +42,8 @@ resource "aws_elasticache_replication_group" "redis_eu-central-1" {
   ]
   subnet_group_name = aws_elasticache_subnet_group.redis_eu-central-1.name
 }
-resource "aws_elasticache_cluster" "redis_eu-central-1" {
-  provider             = aws.eu-central-1
-  replication_group_id = aws_elasticache_replication_group.redis_eu-central-1.id
-  cluster_id           = "redis"
-}
+#resource "aws_elasticache_cluster" "redis_eu-central-1" {
+#  provider             = aws.eu-central-1
+#  replication_group_id = aws_elasticache_replication_group.redis_eu-central-1.id
+#  cluster_id           = "redis"
+#}

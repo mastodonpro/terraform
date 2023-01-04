@@ -6,6 +6,15 @@ resource "aws_elasticache_user" "mastodon" {
   engine        = "REDIS"
   passwords     = [data.aws_kms_secrets.eu-central-1.plaintext["redis_mastodon"]]
 }
+resource "aws_elasticache_user_group" "mastodon" {
+  provider      = aws.eu-central-1
+  engine        = "REDIS"
+  user_group_id = "mastodon"
+  user_ids      = [aws_elasticache_user.mastodon.user_id]
+  lifecycle {
+    ignore_changes = [user_ids]
+  }
+}
 
 # Write configmap to GitHub
 resource "github_repository_file" "fleet_infra_mastodon_values_redis" {

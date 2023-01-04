@@ -43,6 +43,6 @@ output "rds_encrypted_password" {
 output "redis_address" {
   description = "The address of the Elasticache instance"
   value = {
-    eu-central-1 = aws_elasticache_cluster.redis_eu-central-1.cache_nodes.0.address
+    eu-central-1 = aws_elasticache_replication_group.redis_eu-central-1.primary_endpoint_address
   }
 }

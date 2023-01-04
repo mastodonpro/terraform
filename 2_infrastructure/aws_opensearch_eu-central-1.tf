@@ -13,7 +13,8 @@ resource "aws_iam_service_linked_role" "opensearch" {
   aws_service_name = "opensearchservice.amazonaws.com"
 }
 
-resource "aws_opensearch_domain" "mastodon" {
+resource "aws_opensearch_domain" "opensearch_eu-central-1" {
+  provider       = aws.eu-central-1
   domain_name    = "mastodon"
   engine_version = "OpenSearch_2.3"
 
@@ -28,8 +29,8 @@ resource "aws_opensearch_domain" "mastodon" {
     anonymous_auth_enabled         = true
     internal_user_database_enabled = true
     master_user_options {
-      master_user_name     = "example"
-      master_user_password = "Barbarbarbar1!"
+      master_user_name     = "admin"
+      master_user_password = data.aws_kms_secrets.sops_eu-central-1.plaintext["opensearch_master"]
     }
   }
   node_to_node_encryption {

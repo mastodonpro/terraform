@@ -46,3 +46,17 @@ output "redis_address" {
     eu-central-1 = aws_elasticache_replication_group.redis_eu-central-1.primary_endpoint_address
   }
 }
+
+output "opensearch_address" {
+  description = "The address of the OpenSearch instance"
+  value = {
+    eu-central-1 = aws_opensearch_domain.opensearch_eu-central-1.endpoint
+  }
+}
+output "opensearch_encrypted_password" {
+  description = "The encrypted password for the Opensearch cluster"
+  value = {
+    eu-central-1 = var.opensearch_config["${local.environment}_eu-central-1"].encrypted_master_password
+  }
+  sensitive = true
+}

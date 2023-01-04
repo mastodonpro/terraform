@@ -87,3 +87,15 @@ variable "rds_instance_config" {
     }
   }
 }
+variable "opensearch_config" {
+  type        = map(any)
+  description = "Map of config for the Opensearch cluster"
+  default = {
+    staging_eu-central-1 = {
+      encrypted_master_password = "AQICAHgoCsPPrbUgWB1/8cZiYiOPdNBO9yeKtXazwq0Hqd5GUAFBiYtiKoPeaRQtqt8eiCBCAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM+a5CUMN7aR0l9+sAAgEQgC8DwhDJxCbAVBRRHGc47HjDfQ1GtpOYo1hl8QqEXz+tuc5dI+OQrrYhZsVWXi5OwA=="
+    }
+    production_eu-central-1 = {
+      encrypted_master_password = "AQICAHhDzARqeGfai6RecH+rlMli7lmOvirZB75RQhTu6WEBKgGbwYAeEJsIKt3KQFharrCsAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMUQkae9sGtE4od2maAgEQgC+zV0Bkyk2tav/HtXoO9jI5manaUSuzd/SmE33eZFghQaYYbM0h6d9KSSA11rxHlQ=="
+    }
+  }
+}

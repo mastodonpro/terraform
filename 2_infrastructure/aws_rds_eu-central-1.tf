@@ -1,11 +1,3 @@
-data "aws_kms_secrets" "rds_root_eu-central-1" {
-  provider = aws.eu-central-1
-  secret {
-    name    = "rds_root"
-    payload = var.rds_instance_config["${local.environment}_eu-central-1"].encrypted_root_password
-  }
-}
-
 resource "aws_db_subnet_group" "rds_eu-central-1" {
   provider = aws.eu-central-1
   name     = "rds"
@@ -42,7 +34,7 @@ resource "aws_db_instance" "rds_eu-central-1" {
   parameter_group_name = "default.postgres14"
 
   username                            = "postgres"
-  password                            = data.aws_kms_secrets.rds_root_eu-central-1.plaintext["rds_root"]
+  password                            = data.aws_kms_secrets.sops_eu-central-1.plaintext["rds_root"]
   iam_database_authentication_enabled = true
 
   db_subnet_group_name   = aws_db_subnet_group.rds_eu-central-1.name

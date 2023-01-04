@@ -34,7 +34,7 @@ resource "aws_elasticache_replication_group" "redis_eu-central-1" {
   replicas_per_node_group = 0
 
   at_rest_encryption_enabled = true
-  transit_encryption_enabled = true
+  transit_encryption_enabled = false # https://github.com/mastodon/mastodon/issues/19824
 
   security_group_ids = [
     aws_default_security_group.eu-central-1.id,

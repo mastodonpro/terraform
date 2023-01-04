@@ -1,7 +1,3 @@
-
-
-
-
 # Write configmap to GitHub
 resource "github_repository_file" "fleet_infra_mastodon_values_aws" {
   repository          = "fleet-infra"

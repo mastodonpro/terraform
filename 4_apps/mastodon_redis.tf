@@ -1,3 +1,6 @@
+data "aws_elasticache_user" "default" {
+  user_id = "default"
+}
 resource "aws_elasticache_user" "mastodon" {
   provider      = aws.eu-central-1
   user_id       = "mastodon"
@@ -10,7 +13,7 @@ resource "aws_elasticache_user_group" "mastodon" {
   provider      = aws.eu-central-1
   engine        = "REDIS"
   user_group_id = "mastodon"
-  user_ids      = [aws_elasticache_user.mastodon.user_id]
+  user_ids      = [data.aws_elasticache_user.default.user_id, aws_elasticache_user.mastodon.user_id]
   lifecycle {
     ignore_changes = [user_ids]
   }

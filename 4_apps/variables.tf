@@ -22,6 +22,14 @@ variable "GITHUB_APP_PEM_FILE" {
 }
 
 ### DEFINE ENVIRONMENT SPECIFIC VARIABLES ###
+variable "mpro_domain_map" {
+  type        = map(any)
+  description = "Map of environment to domain."
+  default = {
+    staging    = "mastodon-st.com"
+    production = "mastodonpro.com"
+  }
+}
 
 # create the encrypted passwords without newline!
 # aws kms --region eu-central-1 encrypt --key-id alias/sops --plaintext fileb://<(echo -n 'mypassword') --output text --query CiphertextBlob

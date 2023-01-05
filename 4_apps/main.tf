@@ -2,6 +2,11 @@ data "tfe_outputs" "infrastructure" {
   organization = "mastodonpro"
   workspace    = "infrastructure-${local.environment}"
 }
+data "aws_route53_zone" "mpro" {
+  name         = var.mpro_domain_map["${local.environment}"]
+  private_zone = false
+}
+
 data "aws_kms_secrets" "eu-central-1" {
   provider = aws.eu-central-1
   secret {

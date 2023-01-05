@@ -15,7 +15,7 @@ resource "github_repository_file" "fleet_infra_mastodon_values_aws" {
         postgresql:
           postgresqlHostname: ${data.tfe_outputs.infrastructure.values.rds_address.eu-central-1}
         redis:
-          hostname: ${data.tfe_outputs.infrastructure.values.elasticache_address.eu-central-1}
+          hostname: ${data.tfe_outputs.infrastructure.values.redis_address.eu-central-1}
   EOT
   overwrite_on_create = true
   commit_author       = "Terraform - ${var.ATLAS_WORKSPACE_NAME}"

@@ -5,6 +5,10 @@ data "tfe_outputs" "infrastructure" {
 data "aws_kms_secrets" "eu-central-1" {
   provider = aws.eu-central-1
   secret {
+    name    = "elasticsearch_master"
+    payload = data.tfe_outputs.infrastructure.values.opensearch_encrypted_password.eu-central-1
+  }
+  secret {
     name    = "postgres_root"
     payload = data.tfe_outputs.infrastructure.values.rds_encrypted_password.eu-central-1
   }

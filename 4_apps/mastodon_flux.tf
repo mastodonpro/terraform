@@ -35,12 +35,18 @@ data "external" "sops_mastodon_aws" {
       apiVersion: v1
       kind: Secret
       metadata:
+        name: elasticsearch
+        namespace: mastodon
+      data:
+        elasticPassword: "${data.aws_kms_secrets.eu-central-1.plaintext["elasticsearch_master"]}"
+      ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
         name: postgres
         namespace: mastodon
       data:
-        password: ${base64encode(data.aws_kms_secrets.eu-central-1.plaintext["postgres_mastodon"])}
-      EOT
-    /* not used unless mastodon supports TLS connections
+        password: "${base64encode(data.aws_kms_secrets.eu-central-1.plaintext["postgres_mastodon"])}"
       ---
       apiVersion: v1
       kind: Secret
@@ -48,8 +54,9 @@ data "external" "sops_mastodon_aws" {
         name: redis
         namespace: mastodon
       data:
-        redis-password: ${base64encode(data.aws_kms_secrets.eu-central-1.plaintext["redis_mastodon"])}
-    */
+        # empty until mastodon supports TLS
+        redis-password: "" # $${base64encode(data.aws_kms_secrets.eu-central-1.plaintext["redis_mastodon"])}
+      EOT
   }
 }
 # Write encrypted secret file to GitHub

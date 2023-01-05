@@ -1,5 +1,6 @@
 ### SSL CERTIFICATES ###
 resource "aws_acm_certificate" "mastodon" {
+  provider          = aws.eu-central-1
   domain_name       = "social.${data.aws_route53_zone.mpro.name}"
   validation_method = "DNS"
   lifecycle {
